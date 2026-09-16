@@ -3,10 +3,14 @@ const mongoose = require("mongoose");
 const express = require("express");
 const multer = require('multer');
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const app = express();
 const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
+const authRoute = require("./routes/auth.route");
+
 app.use(express.json());
+app.use(cookieParser());
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -24,10 +28,12 @@ function fileFilter(req, file, cb) {
         cb(null, false)
     }
 }
+
 app.use(express.static(path.join(__dirname, "images")))
 app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
+app.use("/api/auth", authRoute)
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     app.listen(process.env.PORT, () => {

@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../models/auth");
+const { validationResult } = require("express-validator");
 
 const OTP_EXPIRES_IN_MINUTES = 2;
 const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "1h";
@@ -67,6 +68,12 @@ async function sendOtp(mobile, otp) {
 
 async function register(req, res) {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array()[0].msg });
+        }
+
         const mobile = req.body.mobile;
         const otp = generateOtp();
         const expiresAt = new Date(Date.now() + OTP_EXPIRES_IN_MINUTES * 60 * 1000);
@@ -106,6 +113,12 @@ async function register(req, res) {
 
 async function verifyOtp(req, res) {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array()[0].msg });
+        }
+
         const mobile = req.body.mobile;
         const otp = req.body.otp;
         const user = await User.findOne({ mobile })
@@ -123,12 +136,17 @@ async function verifyOtp(req, res) {
             return res.status(400).json({ message: "کد تایید نادرست است" });
         }
 
-        user.isVerified = true;
-        user.otp=undefined ;
+        user.otp = undefined;
+        user.isVerifiedPhoneNumber = true;
+
         await user.save();
 
         const tokens = createTokens(user);
         setAuthCookies(res, tokens);
+
+        if (user.isProfileCompleted) {
+            return res.status(200).json({ message: "با موفقیت وارد شدید" })
+        }
 
         return res.status(200).json({
             message: "شماره موبایل با موفقیت تایید شد",
@@ -141,6 +159,12 @@ async function verifyOtp(req, res) {
 
 async function completeProfile(req, res) {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array()[0].msg });
+        }
+
         const userId = req.user.userId;
         const { username, email } = req.body;
 
@@ -152,13 +176,22 @@ async function completeProfile(req, res) {
             });
         }
 
+        const existingUser = await User.findOne({ email: email });
+
+        if (existingUser) {
+            return res.status(400).json({
+                message: "کاربری با این ایمیل قبلا ثبت نام کرده است"
+            });
+        }
+
         user.username = username;
         user.email = email;
+        user.isProfileCompleted = true;
 
         await user.save();
 
         return res.status(200).json({
-            message: "اطلاعات کاربر با موفقیت ثبت شد",
+            message: ".اطلاعات کاربر با موفقیت ثبت شد ، خوش آمدید",
         });
     } catch (error) {
         console.error(error);
@@ -246,7 +279,6 @@ async function logout(req, res) {
         });
     }
 }
-
 
 
 

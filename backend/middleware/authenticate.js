@@ -2,12 +2,12 @@ const jwt = require("jsonwebtoken");
 
 function authenticate(req, res, next) {
     try {
-        
+
         const token = req.cookies?.accessToken;
-        
+
         if (!token) {
             return res.status(401).json({
-                message: "کاربر احراز هویت نشده است"
+                message: "لطفا وارد شوید"
             });
         }
 

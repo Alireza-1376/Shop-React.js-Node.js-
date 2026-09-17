@@ -1,8 +1,8 @@
 const express = require("express");
 const authController = require("../controllers/auth.controller");
 const authRoute = express.Router();
-const { body, validationResult } = require("express-validator");
-const authenticate = require("../middleware/auth");
+const { body } = require("express-validator");
+const authenticate = require("../middleware/authenticate");
 
 const mobileValidation = body("mobile")
     .trim()
@@ -11,15 +11,8 @@ const mobileValidation = body("mobile")
     .matches(/^09\d{9}$/)
     .withMessage("شماره موبایل معتبر نیست");
 
-function handleValidationErrors(req, res, next) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array()[0].msg });
-    }
-    next();
-}
 
-authRoute.post("/register", mobileValidation, handleValidationErrors, authController.register);
+authRoute.post("/register", mobileValidation, authController.register);
 
 authRoute.post(
     "/verify-otp",
@@ -31,7 +24,6 @@ authRoute.post(
             .isNumeric()
             .withMessage("کد تایید باید 6 رقم باشد")
     ],
-    handleValidationErrors,
     authController.verifyOtp
 );
 
@@ -48,7 +40,6 @@ authRoute.post(
         .trim()
         .isEmail()
         .withMessage("ایمیل معتبر نیست"),
-    handleValidationErrors,
     authController.completeProfile
 );
 

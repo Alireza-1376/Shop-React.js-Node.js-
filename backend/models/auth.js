@@ -12,7 +12,7 @@ const authSchema = new mongoose.Schema({
         trim: true,
         maxlength: 50
     },
-    email:{
+    email: {
         type: String,
         trim: true,
         unique: true,
@@ -22,7 +22,11 @@ const authSchema = new mongoose.Schema({
         enum: ["user", "admin"],
         default: "user"
     },
-    isVerified: {
+    isVerifiedPhoneNumber: {
+        type: Boolean,
+        default: false
+    },
+    isProfileCompleted: {
         type: Boolean,
         default: false
     },

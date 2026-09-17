@@ -177,10 +177,28 @@ async function addProductImage(req, res) {
     }
 }
 
+async function getSingleProduct(req, res) {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ message: "محصول یافت نشد" })
+        }
+
+        return res.status(200).json({ product })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: "خطایی در سمت سرور رخ داده است" })
+    }
+
+}
+
 module.exports = {
     addProduct,
     updateProduct,
     getProducts,
     deleteProduct,
-    addProductImage
+    addProductImage,
+    getSingleProduct
 }

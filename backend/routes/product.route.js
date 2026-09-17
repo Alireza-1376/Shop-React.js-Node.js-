@@ -2,6 +2,8 @@ const express = require("express");
 const productController = require("../controllers/product.controller");
 const productRoute = express.Router();
 const { body } = require("express-validator");
+const authorize = require("../middleware/authorize");
+const authenticate = require("../middleware/authenticate");
 
 const productValidation = [
     body("title").notEmpty().withMessage("عنوان محصول الزامی است").isLength({ min: 3 }).withMessage("عنوان محصول باید حداقل 3 کاراکتر باشد"),
@@ -14,12 +16,14 @@ const productValidation = [
 
 productRoute.get("/list", productController.getProducts);
 
-productRoute.post("/add", productValidation, productController.addProduct);
+productRoute.post("/add", authenticate, authorize, productValidation, productController.addProduct);
 
-productRoute.put("/update/:id", productValidation, productController.updateProduct);
+productRoute.put("/update/:id", authenticate, authorize, productValidation, productController.updateProduct);
 
-productRoute.delete("/delete/:id", productController.deleteProduct);
+productRoute.delete("/delete/:id", authenticate, authorize, productController.deleteProduct);
 
-productRoute.post("/add-image/:id", productController.addProductImage);
+productRoute.post("/add-image/:id", authenticate, authorize, productController.addProductImage);
+
+productRoute.get("/:id", productController.getSingleProduct);
 
 module.exports = productRoute;

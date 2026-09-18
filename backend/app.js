@@ -8,6 +8,7 @@ const app = express();
 const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
 const authRoute = require("./routes/auth.route");
+const cartRoute = require("./routes/cart.route")
 
 app.use(express.json());
 app.use(cookieParser());
@@ -34,6 +35,7 @@ app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute)
+app.use("/api/cart", cartRoute)
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     app.listen(process.env.PORT, () => {

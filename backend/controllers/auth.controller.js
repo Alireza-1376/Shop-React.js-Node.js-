@@ -1,10 +1,11 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../models/auth");
+const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 
 const OTP_EXPIRES_IN_MINUTES = 2;
-const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "1h";
+const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "10m";
 const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || "24h";
 
 function createTokens(user) {
@@ -26,19 +27,6 @@ function createTokens(user) {
     };
 }
 
-function createAccessToken(user) {
-    return jwt.sign(
-        {
-            userId: user._id.toString(),
-            role: user.role
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-            expiresIn: ACCESS_TOKEN_EXPIRES_IN
-        }
-    );
-}
-
 function setAuthCookies(res, tokens) {
     const cookieOptions = {
         httpOnly: true,
@@ -48,7 +36,7 @@ function setAuthCookies(res, tokens) {
 
     res.cookie("accessToken", tokens.accessToken, {
         ...cookieOptions,
-        maxAge: 60 * 60 * 1000
+        maxAge: 10 * 60 * 1000
     });
     res.cookie("refreshToken", tokens.refreshToken, {
         ...cookieOptions,
@@ -68,7 +56,6 @@ async function sendOtp(mobile, otp) {
 
 async function register(req, res) {
     try {
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array()[0].msg });
@@ -76,6 +63,7 @@ async function register(req, res) {
 
         const mobile = req.body.mobile;
         const otp = generateOtp();
+        const hashedOtp =await bcrypt.hash(otp,12)
         const expiresAt = new Date(Date.now() + OTP_EXPIRES_IN_MINUTES * 60 * 1000);
         let user = await User.findOne({ mobile });
 
@@ -89,12 +77,12 @@ async function register(req, res) {
             user = new User({
                 mobile: mobile,
                 otp: {
-                    code: otp,
+                    code: hashedOtp,
                     expiresAt: expiresAt
                 }
             });
         } else {
-            user.otp.code = otp;
+            user.otp.code = hashedOtp;
             user.otp.expiresAt = expiresAt;
         }
 
@@ -131,18 +119,17 @@ async function verifyOtp(req, res) {
             return res.status(400).json({ message: "کد تایید منقضی شده است" });
         }
 
-        const isValid = otp === user.otp.code;
+        const isValid =await bcrypt.compare(otp , user.otp.code)
+        
         if (!isValid) {
             return res.status(400).json({ message: "کد تایید نادرست است" });
         }
 
         user.otp = undefined;
         user.isVerifiedPhoneNumber = true;
-
-        await user.save();
-
         const tokens = createTokens(user);
         setAuthCookies(res, tokens);
+        await user.save();
 
         if (user.isProfileCompleted) {
             return res.status(200).json({ message: "با موفقیت وارد شدید" })
@@ -230,7 +217,6 @@ async function refreshToken(req, res) {
 
         if (!user) {
             res.clearCookie("accessToken");
-
             res.clearCookie("refreshToken", {
                 path: "/api"
             });
@@ -240,14 +226,8 @@ async function refreshToken(req, res) {
 
         }
 
-        const newAccessToken = createAccessToken(user);
-
-        res.cookie("accessToken", newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 1000
-        });
+        const tokens = createTokens(user);
+        setAuthCookies(res, tokens);
 
         return res.status(200).json({
             message: "Access token با موفقیت ایجاد شد"
@@ -264,6 +244,7 @@ async function refreshToken(req, res) {
 
 async function logout(req, res) {
     try {
+        const refreshToken = req.cookies?.refreshToken;
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken", {
             path: "/api"
@@ -271,15 +252,14 @@ async function logout(req, res) {
         return res.status(200).json({
             message: "با موفقیت از حساب کاربری خارج شدید"
         });
-
     } catch (error) {
         console.error(error);
+
         return res.status(500).json({
             message: "خروج از حساب کاربری انجام نشد"
         });
     }
 }
-
 
 
 module.exports = {

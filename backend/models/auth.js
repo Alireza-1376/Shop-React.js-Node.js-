@@ -62,6 +62,9 @@ const authSchema = new mongoose.Schema({
         expiresAt: {
             type: Date,
         }
+    },
+    token: {
+        type: String,
     }
 }, {
     timestamps: true

@@ -114,7 +114,64 @@ async function mergeCart(req, res) {
     }
 }
 
+async function deleteOneItem(req, res) {
+    try {
+        const productId = req.params.id;
+        const userId = req.user.userId;
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(404).json({ message: "کاربر پیدا نشد" });
+        }
+
+        const findCartItem = user.cart.find((item) => {
+            return item.product == productId;
+        })
+
+        if (!findCartItem) {
+            return res.status(404).json({
+                message: "محصول در سبد خرید وجود ندارد"
+            });
+        }
+
+        if (findCartItem.quantity > 1) {
+            findCartItem.quantity = findCartItem.quantity - 1
+        } else {
+            const filter = user.cart.filter((item) => {
+                return item.product != productId;
+            })
+            user.cart = filter;
+        }
+
+        await user.save();
+
+        return res.status(200).json({ cart: user.cart })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "خطایی در سرور رخ داد" });
+    }
+
+}
+
+async function deleteAllItems(req, res) {
+    try {
+        const userId = req.user.userId;
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({ message: "کاربر پیدا نشد" });
+        }
+        user.cart = [];
+        await user.save();
+        return res.status(200).json({ cart: user.cart })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "خطایی در سرور رخ داد" });
+    }
+}
+
 module.exports = {
     addToCart,
-    mergeCart
+    mergeCart,
+    deleteOneItem,
+    deleteAllItems
 }

@@ -63,7 +63,7 @@ async function register(req, res) {
 
         const mobile = req.body.mobile;
         const otp = generateOtp();
-        const hashedOtp =await bcrypt.hash(otp,12)
+        const hashedOtp = await bcrypt.hash(otp, 12)
         const expiresAt = new Date(Date.now() + OTP_EXPIRES_IN_MINUTES * 60 * 1000);
         let user = await User.findOne({ mobile });
 
@@ -119,8 +119,8 @@ async function verifyOtp(req, res) {
             return res.status(400).json({ message: "کد تایید منقضی شده است" });
         }
 
-        const isValid =await bcrypt.compare(otp , user.otp.code)
-        
+        const isValid = await bcrypt.compare(otp, user.otp.code)
+
         if (!isValid) {
             return res.status(400).json({ message: "کد تایید نادرست است" });
         }
@@ -185,6 +185,7 @@ async function completeProfile(req, res) {
         return res.status(500).json({ message: "ثبت اطلاعات کاربر انجام نشد" });
     }
 }
+
 
 async function refreshToken(req, res) {
     try {
@@ -261,11 +262,27 @@ async function logout(req, res) {
     }
 }
 
+async function getUser(req, res) {
+    try {
+        const userId = req.user.userId;
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({ message: "کاربر پیدا نشد" });
+        }
+
+        return res.status(200).json({ user })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "خطایی در سرور رخ داد" });
+    }
+}
+
 
 module.exports = {
     register,
     verifyOtp,
     completeProfile,
     refreshToken,
-    logout
+    logout,
+    getUser
 };

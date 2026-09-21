@@ -47,4 +47,6 @@ authRoute.post("/refresh", authController.refreshToken);
 
 authRoute.delete("/logout", authController.logout);
 
+authRoute.get("/user", authenticate, authController.getUser)
+
 module.exports = authRoute;

@@ -58,7 +58,7 @@ async function register(req, res) {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()[0].msg });
+            return res.status(400).json({ message: errors.array()[0].msg });
         }
 
         const mobile = req.body.mobile;
@@ -69,7 +69,7 @@ async function register(req, res) {
 
         if (user && user.otp?.expiresAt && new Date(user.otp.expiresAt) > new Date()) {
             return res.status(400).json({
-                error: "کد تایید قبلا برای شما ارسال شده است"
+                message: "کد تایید قبلا برای شما ارسال شده است"
             });
         }
 
@@ -91,6 +91,7 @@ async function register(req, res) {
         await sendOtp(mobile, otp);
         return res.status(200).json({
             message: `کد تایید به شماره موبایل ${mobile} ارسال شد`,
+            mobile: mobile,
             expiresIn: expiresAt
         });
     } catch (error) {
@@ -104,7 +105,7 @@ async function verifyOtp(req, res) {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()[0].msg });
+            return res.status(400).json({ message: errors.array()[0].msg });
         }
 
         const mobile = req.body.mobile;
@@ -132,11 +133,12 @@ async function verifyOtp(req, res) {
         await user.save();
 
         if (user.isProfileCompleted) {
-            return res.status(200).json({ message: "با موفقیت وارد شدید" })
+            return res.status(200).json({ message: "با موفقیت وارد شدید", user })
         }
 
         return res.status(200).json({
             message: "شماره موبایل با موفقیت تایید شد",
+            user
         });
     } catch (error) {
         console.log(error)

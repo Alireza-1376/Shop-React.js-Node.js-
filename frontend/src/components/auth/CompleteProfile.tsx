@@ -5,7 +5,7 @@ function CompleteProfile() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         console.log({

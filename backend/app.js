@@ -30,6 +30,14 @@ function fileFilter(req, file, cb) {
     }
 }
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', "http://localhost:5173");
+    res.setHeader("Access-Control-Allow-Credentials", "true")
+    res.setHeader('Access-Control-Allow-Headers', "Content-Type , Authorization");
+    res.setHeader('Access-Control-Allow-Methods', "POST , DELETE , PUT , GET");
+    next();
+})
+
 app.use(express.static(path.join(__dirname, "images")))
 app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 app.use("/api/category", categoryRoute);

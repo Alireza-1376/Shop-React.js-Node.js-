@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { FiArrowRight, FiClock, FiMessageSquare } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import OtpInput from "react-otp-input";
+import { useVerifyOtp } from "./useVerifyOtp";
+import Loading from "../../ui/Loading";
+import { useNavigate } from "react-router-dom";
 
-function VerifyOtp() {
+function VerifyOtp({ setStep, mobile, onSubmit }: {
+    setStep: React.Dispatch<React.SetStateAction<number>>,
+    mobile: string,
+    onSubmit: (values: { mobile: string }) => Promise<void>;
+}) {
     const [otp, setOtp] = useState("");
+    const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);
+    const { isPending, mutateAsync } = useVerifyOtp()
 
     useEffect(() => {
         if (timeLeft === 0) return;
@@ -20,19 +28,24 @@ function VerifyOtp() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
-    const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
+        await mutateAsync({ mobile, otp }, {
+            onSuccess: (data) => {
+                if (data.data.user.isProfileCompleted) {
+                    navigate("/", { replace: true })
+                } else {
+                    navigate("/complete-profile", { replace: true })
+                }
+            }
+        })
 
-        if (otp.length !== 6) return;
-
-        console.log("OTP:", otp);
     };
 
     const handleResend = () => {
+        onSubmit({mobile})
         setOtp("");
         setTimeLeft(120);
-
-        console.log("ارسال مجدد کد");
     };
 
     return (
@@ -85,7 +98,7 @@ function VerifyOtp() {
                             <button
                                 type="button"
                                 onClick={handleResend}
-                                className="font-bold text-emerald-500 transition hover:text-emerald-600"
+                                className="font-bold cursor-pointer text-emerald-500 transition hover:text-emerald-600"
                             >
                                 ارسال مجدد کد
                             </button>
@@ -95,19 +108,21 @@ function VerifyOtp() {
                     <button
                         type="submit"
                         disabled={otp.length !== 6}
-                        className="mt-7 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/15 transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
+                        className="mt-7 cursor-pointer flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/15 transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
                     >
-                        تایید و ادامه
-                        <FiArrowRight className="h-4 w-4" />
+                        {isPending ? <Loading size={20} /> : <span className="flex items-center gap-2">
+                            تایید و ادامه
+                            <FiArrowRight className="h-4 w-4" />
+                        </span>}
                     </button>
                 </form>
 
-                <Link
-                    to="/login"
-                    className="mt-5 flex items-center justify-center text-sm font-medium text-slate-400 transition hover:text-emerald-500"
+                <button
+                    onClick={() => { setStep(1) }}
+                    className="mt-5 flex w-full cursor-pointer items-center justify-center text-sm font-medium text-slate-400 transition hover:text-emerald-500"
                 >
                     تغییر شماره موبایل
-                </Link>
+                </button>
             </section>
         </main>
     );

@@ -41,7 +41,7 @@ function setAuthCookies(res, tokens) {
     res.cookie("refreshToken", tokens.refreshToken, {
         ...cookieOptions,
         maxAge: 24 * 60 * 60 * 1000,
-        path: "/api"
+        path: "/"
     });
 }
 
@@ -151,7 +151,7 @@ async function completeProfile(req, res) {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()[0].msg });
+            return res.status(400).json({ message: errors.array()[0].msg });
         }
 
         const userId = req.user.userId;
@@ -192,7 +192,6 @@ async function completeProfile(req, res) {
 async function refreshToken(req, res) {
     try {
         const refreshToken = req.cookies?.refreshToken;
-
         if (!refreshToken) {
             return res.status(401).json({
                 message: "Refresh token یافت نشد"
@@ -250,7 +249,7 @@ async function logout(req, res) {
         const refreshToken = req.cookies?.refreshToken;
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken", {
-            path: "/api"
+            path: "/"
         });
         return res.status(200).json({
             message: "با موفقیت از حساب کاربری خارج شدید"
@@ -267,7 +266,7 @@ async function logout(req, res) {
 async function getUser(req, res) {
     try {
         const userId = req.user.userId;
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).populate("cart")
         if (!user) {
             return res.status(404).json({ message: "کاربر پیدا نشد" });
         }

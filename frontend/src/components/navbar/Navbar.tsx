@@ -7,8 +7,12 @@ import MobileCart from "./MobileCart";
 import NavItems from "./NavItems";
 import Logo from "./Logo";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { useUser } from "../../hooks/useUser";
+import { useLogout } from "../../hooks/useLogout";
 
 function Navbar() {
+    const { isLoading, user } = useUser();
+    const { mutateAsync } = useLogout();
     const userMenuRef = useRef<HTMLDivElement>(null);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -18,6 +22,10 @@ function Navbar() {
         document.body.style.overflow = mobileOpen ? "hidden" : "";
         return () => { document.body.style.overflow = ""; };
     }, [mobileOpen]);
+
+    async function logout() {
+        await mutateAsync()
+    }
 
     return (
         <div>
@@ -36,7 +44,7 @@ function Navbar() {
                     </div>
                     <div className="flex items-center gap-2">
                         <DesktopCart />
-                        <DesktopUser userMenuRef={userMenuRef} userMenuOpen={userMenuOpen} setUserMenuOpen={setUserMenuOpen} />
+                        <DesktopUser logout={logout} isLoading={isLoading} user={user} userMenuRef={userMenuRef} userMenuOpen={userMenuOpen} setUserMenuOpen={setUserMenuOpen} />
                     </div>
                 </div>
             </header>
@@ -59,7 +67,7 @@ function Navbar() {
                     <div className="my-4 border-t border-slate-100" />
                     <MobileCart setMobileOpen={setMobileOpen} />
                     <div className="my-4 border-t border-slate-100" />
-                    <MobileUser setMobileOpen={setMobileOpen} />
+                    <MobileUser logout={logout} isLoading={isLoading} user={user} setMobileOpen={setMobileOpen} />
                 </div>
             </aside>
         </div>

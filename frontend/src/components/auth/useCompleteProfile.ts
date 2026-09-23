@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { completeProfile } from "../../services/authServices";
 import toast from "react-hot-toast";
-import { verifyOtp } from "../../services/authServices";
+import axios from "axios";
 
-export function useVerifyOtp() {
+export function useCompleteProfile() {
     const queryClient = useQueryClient();
-    const { isPending, mutateAsync, data } = useMutation({
-        mutationFn: verifyOtp,
+    const { isPending, mutateAsync } = useMutation({
+        mutationFn: completeProfile,
         onSuccess: (data) => {
             toast.success(data.data.message)
             queryClient.invalidateQueries({
@@ -22,5 +22,5 @@ export function useVerifyOtp() {
         }
     })
 
-    return { isPending, mutateAsync, data }
+    return { isPending, mutateAsync }
 }

@@ -36,11 +36,11 @@ async function getAllCategories(req, res) {
         if (categories) {
             return res.status(200).json({ categories });
         } else {
-            return res.status(404).json({ error: "دسته بندی یافت نشد" });
+            return res.status(404).json({ message: "دسته بندی یافت نشد" });
         }
 
     } catch (error) {
-        return res.status(500).json({ error: "خطایی در سمت سرور رخ داده است" })
+        return res.status(500).json({ message: "خطایی در سمت سرور رخ داده است" })
     }
 }
 

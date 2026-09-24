@@ -13,7 +13,7 @@ type DesktopUserPropsTypes = {
 }
 
 function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoading, logout }: DesktopUserPropsTypes) {
-    
+
     return (
         <div ref={userMenuRef} className="relative hidden lg:block">
             {isLoading ? <div className="w-full flex justify-center"><Loading size={30} /></div>
@@ -47,11 +47,11 @@ function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoadi
                                     <FiUser size={18} />
                                     مشاهده پروفایل
                                 </a>
-                                {1 && (
-                                    <a href="#admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
+                                {user.role === "admin" && (
+                                    <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
                                         <FiSettings size={18} />
                                         پنل مدیریت
-                                    </a>
+                                    </Link>
                                 )}
                                 <div className="my-1 border-t border-slate-100" />
 

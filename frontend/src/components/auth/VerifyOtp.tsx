@@ -4,7 +4,6 @@ import OtpInput from "react-otp-input";
 import { useVerifyOtp } from "./useVerifyOtp";
 import Loading from "../../ui/Loading";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 
 function VerifyOtp({ setStep, mobile, onSubmit }: {
     setStep: React.Dispatch<React.SetStateAction<number>>,

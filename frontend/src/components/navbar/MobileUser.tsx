@@ -35,11 +35,11 @@ function MobileUser({ setMobileOpen, user, isLoading, logout }: MobileUserPropsT
                             مشاهده پروفایل
                         </a>
 
-                        {1 && (
-                            <a href="#admin" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
+                        {user.role==="admin" && (
+                            <Link to="/admin" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
                                 <FiSettings size={18} />
                                 پنل مدیریت
-                            </a>
+                            </Link>
                         )}
 
                         <button onClick={() => logout()} className="flex cursor-pointer w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-500 transition-all hover:bg-red-50">

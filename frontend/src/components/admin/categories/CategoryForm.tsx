@@ -2,19 +2,32 @@ import { Form, Formik } from "formik";
 import Input from "../../../ui/Input";
 import Error from "../../../ui/Error";
 import * as Yup from 'yup';
-import type { InitialValueType } from "../../../types/category";
+import type { CategoryType, InitialValueType } from "../../../types/category";
 import { useAddCategory } from "./useAddCategory";
 import Loading from "../../../ui/Loading";
+import { useEffect, useState } from "react";
+import { useUpdateCategory } from "./useUpdataCategory";
 
 
 
-function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const { isPending, mutateAsync } = useAddCategory()
-    const initialValue = {
+function CategoryForm({ setOpenModal, category }: { setOpenModal: React.Dispatch<React.SetStateAction<boolean>>, category?: CategoryType }) {
+    const { isAdd, add } = useAddCategory()
+    const { isUpdating, update } = useUpdateCategory()
+    const [initialValue, setInitialValue] = useState({
         title: "",
         englishTitle: "",
         description: ""
-    };
+    });
+
+    useEffect(() => {
+        if (category) {
+            setInitialValue({
+                title: category.title,
+                englishTitle: category.englishTitle,
+                description: category.description
+            })
+        }
+    }, [])
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -33,11 +46,19 @@ function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.Set
     });
 
     const onSubmit = async (values: InitialValueType) => {
-        await mutateAsync(values, {
-            onSuccess: () => {
-                setOpenModal(false)
-            }
-        })
+        if (category) {
+            await update({ id: category._id, data: values }, {
+                onSuccess: () => {
+                    setOpenModal(false)
+                }
+            })
+        } else {
+            await add(values, {
+                onSuccess: () => {
+                    setOpenModal(false)
+                }
+            })
+        }
     }
 
     return (
@@ -45,10 +66,11 @@ function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.Set
             initialValues={initialValue}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            enableReinitialize
         >
             <Form className="space-y-6">
                 <div>
-                    <label htmlFor="title" className="mb-2 block text-sm font-bold text-slate-700">
+                    <label htmlFor="title" className="mb-2 text-start block text-sm font-bold text-slate-700">
                         عنوان
                     </label>
                     <Input
@@ -60,7 +82,7 @@ function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.Set
                     <Error name="title" />
                 </div>
                 <div>
-                    <label htmlFor="englishTitle" className="mb-2 block text-sm font-bold text-slate-700">
+                    <label htmlFor="englishTitle" className="mb-2 text-start block text-sm font-bold text-slate-700">
                         عنوان انگلیسی
                     </label>
                     <Input
@@ -72,7 +94,7 @@ function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.Set
                     <Error name="englishTitle" />
                 </div>
                 <div>
-                    <label htmlFor="description" className="mb-2 block text-sm font-bold text-slate-700">
+                    <label htmlFor="description" className="mb-2 text-start block text-sm font-bold text-slate-700">
                         توضیحات
                     </label>
                     <Input
@@ -85,8 +107,8 @@ function CategoryForm({ setOpenModal }: { setOpenModal: React.Dispatch<React.Set
                 </div>
                 <div>
                     <button type="submit" className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/15 transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none">
-                        {isPending ? <Loading size={20} /> : <span className="flex items-center gap-2">
-                            افزودن
+                        {isAdd || isUpdating ? <Loading size={20} /> : <span className="flex items-center gap-2">
+                            {category ? "ویرایش" : " افزودن"}
                         </span>}
                     </button>
                 </div>

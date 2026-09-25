@@ -10,3 +10,11 @@ export function getAllCategories() {
 export function addCategory(data: InitialValueType) {
     return http.post("/category/add", data)
 }
+
+export function updateCategory({ id, data }: { id: string, data: InitialValueType }) {
+    return http.put(`/category/update/${id}`, data)
+}
+
+export function deleteCategory(id: string) {
+    return http.delete(`/category/delete/${id}`)
+}

@@ -1,21 +1,13 @@
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import Table from "../../../ui/Table";
 import Loading from "../../../ui/Loading";
 import { useGetCategories } from "./useGetCategories";
 import AddCategory from "./AddCategory";
+import Actions from "./Actions";
 
 
 function Categories() {
   const { isLoading, data } = useGetCategories();
   const categories = data ?? [];
-
-  const handleEdit = (id: string) => {
-    console.log("edit category:", id);
-  };
-
-  const handleDelete = (id: string) => {
-    console.log("delete category:", id);
-  };
 
   return (
     <section className="mx-auto w-full max-w-7xl">
@@ -104,25 +96,7 @@ function Categories() {
 
                       {/* Actions */}
                       <td className="px-5 py-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-
-                          <button
-                            onClick={() => handleEdit(category._id)}
-                            title="ویرایش"
-                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-emerald-50 text-emerald-500 transition-all hover:bg-emerald-500 hover:text-white"
-                          >
-                            <FiEdit2 size={16} />
-                          </button>
-
-                          <button
-                            onClick={() => handleDelete(category._id)}
-                            title="حذف"
-                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-red-50 text-red-400 transition-all hover:bg-red-500 hover:text-white"
-                          >
-                            <FiTrash2 size={16} />
-                          </button>
-
-                        </div>
+                        <Actions category={category} />
                       </td>
                     </Table.RowBody>
                   ))}

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCategory } from "../../../services/categoryServices";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { updateCategory } from "../../../services/categoryServices";
 
-export function useAddCategory() {
+export function useUpdateCategory() {
     const queryClient = useQueryClient();
-    const { isPending : isAdd , mutateAsync : add } = useMutation({
-        mutationFn: addCategory,
+    const { isPending : isUpdating , mutateAsync : update } = useMutation({
+        mutationFn: updateCategory,
         onSuccess: (data) => {
             toast.success(data.data.message)
             queryClient.invalidateQueries({ queryKey: ["categories"] })
@@ -20,5 +20,5 @@ export function useAddCategory() {
         }
     });
 
-    return { isAdd, add }
+    return { isUpdating, update }
 }

@@ -1,3 +1,5 @@
+import type { CategoryType } from "./category"
+
 export type ProductType = {
     _id: string
     title: string
@@ -7,7 +9,7 @@ export type ProductType = {
     image: string[]
     discount: number
     likes: string[]
-    category: string
+    category: CategoryType
 }
 
 export type Products = {
@@ -16,3 +18,12 @@ export type Products = {
     totalProducts: number
     currentPage: number
 }
+
+export type InitialValueType = {
+    title: string;
+    description: string;
+    price: string;
+    stock: string;
+    discount: string;
+    category: string;
+};

@@ -1,8 +1,8 @@
-import { FiEdit2, FiImage, FiTrash2 } from "react-icons/fi";
 import Loading from "../../../ui/Loading";
 import Table from "../../../ui/Table";
-import AddProduct from "./AddCategory";
+import AddProduct from "./AddProduct";
 import { useGetProducts } from "./useGetProducts";
+import Actions from "./Actions";
 
 function Products() {
   const { isLoading, products } = useGetProducts()
@@ -122,31 +122,7 @@ function Products() {
                         </td>
 
                         <td className="max-w-md px-5 py-4 text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <button
-                              type="button"
-                              title="ویرایش"
-                              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-emerald-50 text-emerald-500 transition-all hover:bg-emerald-500 hover:text-white"
-                            >
-                              <FiEdit2 size={16} />
-                            </button>
-
-                            <button
-                              type="button"
-                              title="افزودن تصویر"
-                              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-blue-50 text-blue-500 transition-all hover:bg-blue-500 hover:text-white"
-                            >
-                              <FiImage size={16} />
-                            </button>
-
-                            <button
-                              type="button"
-                              title="حذف"
-                              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-red-50 text-red-400 transition-all hover:bg-red-500 hover:text-white"
-                            >
-                              <FiTrash2 size={16} />
-                            </button>
-                          </div>
+                          <Actions product={product} />
                         </td>
                       </Table.RowBody>
                     )

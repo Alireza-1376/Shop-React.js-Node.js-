@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import Modal from "../../../ui/Modal";
+import ProductForm from "./ProductForm";
 
 
 function AddProduct() {
@@ -12,7 +13,7 @@ function AddProduct() {
                 افزودن محصول
             </button>
             <Modal isOpen={openModal} onClose={() => { setOpenModal(false) }} title="افزودن محصول">
-                <p>افزودن محصول</p>
+                <ProductForm setOpenModal={setOpenModal}/>
             </Modal>
         </div>
     )

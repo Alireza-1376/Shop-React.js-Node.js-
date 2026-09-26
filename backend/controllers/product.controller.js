@@ -8,7 +8,7 @@ async function addProduct(req, res) {
 
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()[0].msg })
+            return res.status(400).json({ message: errors.array()[0].msg })
         }
 
         const title = req.body.title;
@@ -31,7 +31,7 @@ async function addProduct(req, res) {
         if (savedProduct) {
             return res.status(201).json({ message: "محصول با موفقیت ایجاد شد", product: savedProduct });
         } else {
-            return res.status(500).json({ error: "خطایی در ایجاد محصول رخ داده است" });
+            return res.status(500).json({ message: "خطایی در ایجاد محصول رخ داده است" });
         }
 
     } catch (error) {

@@ -21,8 +21,12 @@ export type UserItems = {
     updatedAt: string
     username: string
     _id: string
-} | undefined 
+} | undefined
 
 export type UserType = {
     user: UserItems
+}
+
+export type UsersType = {
+    users: UserItems[]
 }

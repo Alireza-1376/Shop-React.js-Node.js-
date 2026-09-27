@@ -3,10 +3,13 @@ import Table from "../../../ui/Table";
 import AddProduct from "./AddProduct";
 import { useGetProducts } from "./useGetProducts";
 import Actions from "./Actions";
+import PaginationBtns from "../../../ui/Pagination";
+import toPersianPrice from "../../../utils/toPersianPrice";
+import toPersianNumber from "../../../utils/toPersianNumber";
 
 function Products() {
   const { isLoading, products } = useGetProducts()
-  console.log(products)
+
   return (
     <section className="mx-auto w-full max-w-7xl">
 
@@ -35,7 +38,7 @@ function Products() {
               </h3>
 
               <p className="mt-1 text-[11px] text-slate-400">
-                {0} محصولات ثبت شده
+                {toPersianNumber(products ? products?.products.length : 0)} محصولات ثبت شده
               </p>
             </div>
           </div>
@@ -87,7 +90,7 @@ function Products() {
                       <Table.RowBody key={product._id}>
                         <td className="px-5 py-4 text-center">
                           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-xs font-bold text-slate-400">
-                            {index + 1}
+                            {toPersianNumber(index + 1)}
                           </span>
                         </td>
                         <td className="px-5 py-4 text-center">
@@ -105,19 +108,19 @@ function Products() {
 
                         <td className="max-w-md px-5 py-4 text-center">
                           <p className="truncate text-xs text-slate-500">
-                            {product.price}
+                            {toPersianPrice(product.price)}
                           </p>
                         </td>
 
                         <td className="max-w-md px-5 py-4 text-center">
                           <p className="truncate text-xs text-slate-500">
-                            {product.stock}
+                            {toPersianNumber(product.stock)}
                           </p>
                         </td>
 
                         <td className="max-w-md px-5 py-4 text-center">
                           <p className="truncate text-xs text-slate-500">
-                            {product.discount}
+                            {toPersianNumber(product.discount)}
                           </p>
                         </td>
 
@@ -147,6 +150,7 @@ function Products() {
           </>
         )}
       </div>
+      <PaginationBtns currentPage={products ? products?.currentPage : 0} lastPage={products ? products?.totalPages : 0} />
     </section>
   )
 }

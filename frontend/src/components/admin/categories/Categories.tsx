@@ -3,6 +3,7 @@ import Loading from "../../../ui/Loading";
 import { useGetCategories } from "./useGetCategories";
 import AddCategory from "./AddCategory";
 import Actions from "./Actions";
+import toPersianNumber from "../../../utils/toPersianNumber";
 
 
 function Categories() {
@@ -37,7 +38,7 @@ function Categories() {
               </h3>
 
               <p className="mt-1 text-[11px] text-slate-400">
-                {categories.length} دسته بندی ثبت شده
+                {toPersianNumber(categories.length)} دسته بندی ثبت شده
               </p>
             </div>
           </div>
@@ -76,7 +77,7 @@ function Categories() {
                     <Table.RowBody key={category._id}>
                       <td className="px-5 py-4 text-center">
                         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-xs font-bold text-slate-400">
-                          {index + 1}
+                          {toPersianNumber(index + 1)}
                         </span>
                       </td>
 

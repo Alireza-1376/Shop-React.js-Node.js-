@@ -1,5 +1,7 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
+const fs = require("fs/promises");
+const path = require("path");
 
 const { validationResult } = require("express-validator");
 
@@ -139,6 +141,23 @@ async function getProducts(req, res) {
 async function deleteProduct(req, res) {
     try {
         const productId = req.params.id;
+
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: "محصول یافت نشد" })
+        }
+        await Promise.all(
+            product.image.map(async (img) => {
+                const imagePath = path.join(__dirname, "..", "images", img);
+
+                try {
+                    await fs.unlink(imagePath);
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+        );
+
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {
@@ -180,7 +199,7 @@ async function addProductImage(req, res) {
 async function getSingleProduct(req, res) {
     try {
         const productId = req.params.id;
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate("category");
 
         if (!product) {
             return res.status(404).json({ message: "محصول یافت نشد" })
@@ -194,11 +213,44 @@ async function getSingleProduct(req, res) {
 
 }
 
+async function deleteImage(req, res) {
+    try {
+        const id = req.params.id;
+        const imageName = req.body.imageName;
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({ message: "محصول یافت نشد" })
+        }
+
+        const imagePath = path.join(__dirname, "..", "images", imageName);
+        fs.unlink(imagePath, (error) => {
+            if (error) {
+                console.log(error);
+                return;
+            }
+        });
+        const filteredImages = product.image.filter((img) => {
+            return img != imageName
+        })
+        product.image = filteredImages;
+        await product.save()
+
+        return res.status(200).json({ message: "عکس محصول با موفقیت حذف شد" })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: "خطایی در سمت سرور رخ داده است" })
+    }
+
+}
+
 module.exports = {
     addProduct,
     updateProduct,
     getProducts,
     deleteProduct,
     addProductImage,
-    getSingleProduct
+    getSingleProduct,
+    deleteImage
 }

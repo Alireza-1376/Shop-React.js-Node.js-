@@ -5,6 +5,7 @@ import ProductForm from "./ProductForm";
 import type { ProductType } from "../../../types/product";
 import Loading from "../../../ui/Loading";
 import { useDeleteProduct } from "./useDeleteProduct";
+import { Link } from "react-router-dom";
 
 function Actions({ product }: { product: ProductType }) {
     const [editModal, setEditModal] = useState(false);
@@ -37,13 +38,13 @@ function Actions({ product }: { product: ProductType }) {
                 <ProductForm setOpenModal={setEditModal} product={product} />
             </Modal>
 
-            <button
-                type="button"
+            <Link
+                to={`/admin/products/images/${product._id}`}
                 title="افزودن تصویر"
                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-blue-50 text-blue-500 transition-all hover:bg-blue-500 hover:text-white"
             >
                 <FiImage size={16} />
-            </button>
+            </Link>
 
             <button
                 onClick={() => { setDeleteModal(true) }}

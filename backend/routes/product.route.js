@@ -24,6 +24,8 @@ productRoute.delete("/delete/:id", authenticate, authorize, productController.de
 
 productRoute.post("/add-image/:id", authenticate, authorize, productController.addProductImage);
 
+productRoute.post("/delete-image/:id" , authenticate, authorize , productController.deleteImage)
+
 productRoute.get("/:id", productController.getSingleProduct);
 
 module.exports = productRoute;

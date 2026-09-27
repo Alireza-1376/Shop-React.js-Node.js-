@@ -13,6 +13,7 @@ import Categories from "./components/admin/categories/Categories";
 import Products from "./components/admin/products/Products";
 import Orders from "./components/admin/orders/Orders";
 import Users from "./components/admin/users/Users";
+import Image from "./components/admin/products/Image";
 
 const queryClient = new QueryClient()
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="categories" element={<Categories />} />
           <Route path="products" element={<Products />} />
+          <Route path="products/images/:id" element={<Image />} />
           <Route path="orders" element={<Orders />} />
           <Route path="users" element={<Users />} />
         </Route>

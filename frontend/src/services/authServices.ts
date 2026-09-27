@@ -1,4 +1,4 @@
-import type { CompleteProfileValueType, UserType, VerifyOtpValueType } from "../types/auth";
+import type { CompleteProfileValueType, UsersType, UserType, VerifyOtpValueType } from "../types/auth";
 import http from "./httpService";
 
 export function sendPhoneNumber(data: { mobile: string }) {
@@ -15,6 +15,10 @@ export function completeProfile(data: CompleteProfileValueType) {
 
 export function getUser() {
     return http.get<UserType>("/auth/user").then((data) => data.data.user)
+}
+
+export function getAllUsers() {
+    return http.get<UsersType>("/auth/users").then((data) => data.data.users)
 }
 
 

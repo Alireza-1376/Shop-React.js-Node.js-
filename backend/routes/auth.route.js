@@ -3,6 +3,7 @@ const authController = require("../controllers/auth.controller");
 const authRoute = express.Router();
 const { body } = require("express-validator");
 const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 
 const mobileValidation = body("mobile")
     .trim()
@@ -47,6 +48,8 @@ authRoute.post("/refresh", authController.refreshToken);
 
 authRoute.delete("/logout", authController.logout);
 
-authRoute.get("/user", authenticate, authController.getUser)
+authRoute.get("/user", authenticate, authController.getUser);
+
+authRoute.get("/users", authenticate, authorize, authController.getUsers);
 
 module.exports = authRoute;

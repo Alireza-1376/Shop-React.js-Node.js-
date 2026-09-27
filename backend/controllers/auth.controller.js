@@ -278,6 +278,20 @@ async function getUser(req, res) {
     }
 }
 
+async function getUsers(req, res) {
+    try {
+        const users = await User.find().populate("cart")
+        if (!users) {
+            return res.status(404).json({ message: "کاربر پیدا نشد" });
+        }
+
+        return res.status(200).json({ users })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "خطایی در سرور رخ داد" });
+    }
+}
+
 
 module.exports = {
     register,
@@ -285,5 +299,6 @@ module.exports = {
     completeProfile,
     refreshToken,
     logout,
-    getUser
+    getUser,
+    getUsers
 };

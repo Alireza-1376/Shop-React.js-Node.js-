@@ -280,12 +280,24 @@ async function getUser(req, res) {
 
 async function getUsers(req, res) {
     try {
-        const users = await User.find().populate("cart")
+        const { page } = req.query;
+        const pageNumber = Number(page) || 1;
+        const pageLimit = 10;
+        const skip = (pageNumber - 1) * pageLimit;
+
+        const users = await User.find().skip(skip).limit(pageLimit).populate("cart")
+
         if (!users) {
             return res.status(404).json({ message: "کاربر پیدا نشد" });
         }
 
-        return res.status(200).json({ users })
+        const totalUsers = await User.countDocuments();
+        return res.status(200).json({
+            users,
+            currentPage: pageNumber,
+            totalPages: Math.ceil(totalUsers / pageLimit),
+            totalUsers
+        })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "خطایی در سرور رخ داد" });

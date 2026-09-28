@@ -14,6 +14,10 @@ import Products from "./components/admin/products/Products";
 import Orders from "./components/admin/orders/Orders";
 import Users from "./components/admin/users/Users";
 import Image from "./components/admin/products/Image";
+import MainProducts from "./components/products/Products";
+import AboutUs from "./ui/About-Us";
+import ContactUs from "./ui/Contact-Us";
+
 
 const queryClient = new QueryClient()
 
@@ -24,8 +28,11 @@ const App = () => {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/products" element={<MainProducts />} />
           <Route path="/login" element={<AuthLayout />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="dashboard" />} />

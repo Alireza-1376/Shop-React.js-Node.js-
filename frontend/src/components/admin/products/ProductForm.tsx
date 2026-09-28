@@ -3,7 +3,7 @@ import Input from "../../../ui/Input";
 import Error from "../../../ui/Error";
 import * as Yup from 'yup';
 import type { InitialValueType, ProductType } from "../../../types/product";
-import { useGetCategories } from "../categories/useGetCategories";
+import { useGetCategories } from "../../../hooks/useGetCategories";
 import { useAddCategory } from "./useAddProduct";
 import Loading from "../../../ui/Loading";
 import { useEffect, useState } from "react";

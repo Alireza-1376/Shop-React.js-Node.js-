@@ -1,6 +1,6 @@
 import Table from "../../../ui/Table";
 import Loading from "../../../ui/Loading";
-import { useGetCategories } from "./useGetCategories";
+import { useGetCategories } from "../../../hooks/useGetCategories";
 import AddCategory from "./AddCategory";
 import Actions from "./Actions";
 import toPersianNumber from "../../../utils/toPersianNumber";

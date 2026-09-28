@@ -1,8 +1,8 @@
 import Loading from "../../../ui/Loading";
+import PaginationBtns from "../../../ui/Pagination";
 import Table from "../../../ui/Table";
 import toLocalDateShort from "../../../utils/toLocalDateShort";
 import toPersianNumber from "../../../utils/toPersianNumber";
-import toFarsiNumber from "../../../utils/toPersianPrice";
 import { useGetUsers } from "./useGetUsers";
 
 function Users() {
@@ -19,7 +19,7 @@ function Users() {
         </div>
       </div>
 
-      {users?.length == 0 ?
+      {users?.users.length == 0 ?
 
         <div className="flex flex-col items-center justify-center px-5 py-16 text-center">
           <h3 className="mt-4 text-lg font-bold text-slate-700">
@@ -59,7 +59,7 @@ function Users() {
                   </Table.RowHead>
                 </Table.Header>
                 <Table.Body>
-                  {users?.map((user, index) => {
+                  {users?.users.map((user, index) => {
                     return (
                       <Table.RowBody key={user?._id}>
                         <td className="px-5 py-4 text-center">
@@ -100,11 +100,10 @@ function Users() {
             </div>
           }
         </>
-
       }
-
-
-
+      {users && users.totalUsers != 0 &&
+        <PaginationBtns currentPage={users ? users?.currentPage : 1} lastPage={users ? users?.totalPages : 1} />
+      }
     </section>
   )
 }

@@ -6,7 +6,7 @@ export function useGetProduct() {
     const { id } = useParams();
     const { isLoading, data } = useQuery({
         queryFn: () => getSingleProduct(String(id)),
-        queryKey: ["product"]
+        queryKey: ["product", id]
     })
 
     return { isLoading, data }

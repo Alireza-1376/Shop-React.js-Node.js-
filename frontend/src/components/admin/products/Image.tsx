@@ -7,8 +7,7 @@ import Loading from "../../../ui/Loading";
 function Image() {
     const navigate = useNavigate();
     const { isLoading, data } = useGetProduct();
-    console.log(data?.product);
-
+    
     return (
         <div>
             <div className="flex items-center justify-between mb-8">

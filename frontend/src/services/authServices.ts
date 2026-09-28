@@ -17,8 +17,8 @@ export function getUser() {
     return http.get<UserType>("/auth/user").then((data) => data.data.user)
 }
 
-export function getAllUsers() {
-    return http.get<UsersType>("/auth/users").then((data) => data.data.users)
+export function getAllUsers(qs: string) {
+    return http.get<UsersType>(`/auth/users${qs}`).then((data) => data.data)
 }
 
 

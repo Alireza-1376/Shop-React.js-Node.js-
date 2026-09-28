@@ -1,14 +1,15 @@
 import Loading from "../../../ui/Loading";
 import Table from "../../../ui/Table";
 import AddProduct from "./AddProduct";
-import { useGetProducts } from "./useGetProducts";
+import { useGetProducts } from "../../../hooks/useGetProducts";
 import Actions from "./Actions";
 import PaginationBtns from "../../../ui/Pagination";
 import toPersianPrice from "../../../utils/toPersianPrice";
 import toPersianNumber from "../../../utils/toPersianNumber";
+import shortenText from "../../../utils/shortText";
 
 function Products() {
-  const { isLoading, products } = useGetProducts()
+  const { isLoading, products } = useGetProducts();
 
   return (
     <section className="mx-auto w-full max-w-7xl">
@@ -102,7 +103,7 @@ function Products() {
                         {/* Description */}
                         <td className="max-w-md px-5 py-4 text-center">
                           <p className="truncate text-xs text-slate-500">
-                            {product.description}
+                            {shortenText(product.description, 30)}
                           </p>
                         </td>
 
@@ -120,7 +121,7 @@ function Products() {
 
                         <td className="max-w-md px-5 py-4 text-center">
                           <p className="truncate text-xs text-slate-500">
-                            {toPersianNumber(product.discount)}
+                            {toPersianNumber(product.discount)} درصد
                           </p>
                         </td>
 
@@ -150,7 +151,9 @@ function Products() {
           </>
         )}
       </div>
-      <PaginationBtns currentPage={products ? products?.currentPage : 0} lastPage={products ? products?.totalPages : 0} />
+      {products && products.totalProducts != 0 &&
+        <PaginationBtns currentPage={products?.currentPage} lastPage={products?.totalPages} />
+      }
     </section>
   )
 }

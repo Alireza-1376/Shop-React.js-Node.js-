@@ -29,4 +29,7 @@ export type UserType = {
 
 export type UsersType = {
     users: UserItems[]
+    currentPage: number
+    totalPages: number
+    totalUsers :number
 }

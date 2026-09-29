@@ -17,6 +17,8 @@ import Image from "./components/admin/products/Image";
 import MainProducts from "./components/products/Products";
 import AboutUs from "./ui/About-Us";
 import ContactUs from "./ui/Contact-Us";
+import ProtectedRoute from "./ui/AdminProtectedRoute";
+import LoginProtectRoute from "./ui/LoginProtectRoute";
 
 
 const queryClient = new QueryClient()
@@ -29,12 +31,29 @@ const App = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<MainProducts />} />
-          <Route path="/login" element={<AuthLayout />} />
-          <Route path="/complete-profile" element={<CompleteProfile />} />
+          <Route path="/login" element={
+            <LoginProtectRoute>
+              <AuthLayout />
+            </LoginProtectRoute>
+          } />
+          <Route path="/check-otp" element={
+            <LoginProtectRoute>
+              <AuthLayout />
+            </LoginProtectRoute>
+          } />
+          <Route path="/complete-profile" element={
+            <LoginProtectRoute>
+              <CompleteProfile />
+            </LoginProtectRoute>
+          } />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
         </Route>
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="categories" element={<Categories />} />

@@ -2,7 +2,7 @@ import { FiHeart, FiShield, FiTruck } from "react-icons/fi";
 
 function AboutUs() {
     return (
-        <div className="min-h-screen bg-slate-50 py-10 sm:py-14">
+        <div className="min-h-screen bg-slate-50 py-10 py-32">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                 <section className="rounded-3xl border border-slate-100 bg-white px-6 py-12 text-center shadow-sm sm:px-10 sm:py-16">
                     <span className="mb-4 inline-block rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-600">

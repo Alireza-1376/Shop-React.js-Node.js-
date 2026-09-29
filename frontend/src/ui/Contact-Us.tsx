@@ -2,7 +2,7 @@ import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 
 function ContactUs() {
     return (
-        <div className="min-h-screen bg-slate-50 py-10 sm:py-14">
+        <div className="min-h-screen bg-slate-50 py-10 py-32">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                 <div className="mb-8 text-center">
                     <span className="mb-3 inline-block rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-600">

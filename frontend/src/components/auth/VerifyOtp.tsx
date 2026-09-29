@@ -5,15 +5,15 @@ import { useVerifyOtp } from "./useVerifyOtp";
 import Loading from "../../ui/Loading";
 import { useNavigate } from "react-router-dom";
 
-function VerifyOtp({ setStep, mobile, onSubmit }: {
-    setStep: React.Dispatch<React.SetStateAction<number>>,
+function VerifyOtp({ mobile, onSubmit }: {
     mobile: string,
     onSubmit: (values: { mobile: string }) => Promise<void>;
 }) {
     const [otp, setOtp] = useState("");
     const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);
-    const { isPending, mutateAsync } = useVerifyOtp()
+    const { isPending, mutateAsync } = useVerifyOtp();
+    console.log(mobile);
 
     useEffect(() => {
         if (timeLeft === 0) return;
@@ -118,7 +118,7 @@ function VerifyOtp({ setStep, mobile, onSubmit }: {
                 </form>
 
                 <button
-                    onClick={() => { setStep(1) }}
+                    onClick={() => { navigate("/login") }}
                     className="mt-5 flex w-full cursor-pointer items-center justify-center text-sm font-medium text-slate-400 transition hover:text-emerald-500"
                 >
                     تغییر شماره موبایل

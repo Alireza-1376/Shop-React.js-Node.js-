@@ -5,9 +5,10 @@ export function useUser() {
     const { isLoading, data: user } = useQuery({
         queryFn: getUser,
         queryKey: ['user'],
-        retry: false
+        retry: false,
+        refetchOnWindowFocus: false,
     })
 
-    
+
     return { isLoading, user }
 }

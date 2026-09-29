@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function Home() {
     return (
-        <main>
-            <section id="home" className="flex min-h-162.5 items-center justify-center px-6">
+        <main className="">
+            <section id="home" className="flex min-h-screen items-center justify-center px-6">
                 <div className="text-center">
                     <span className="inline-block rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-600">به فروشگاه علیرضا خوش آمدید</span>
                     <h2 className="mt-5 text-4xl font-black leading-tight text-slate-800 sm:text-5xl">خریدی آسان، سریع و مطمئن</h2>

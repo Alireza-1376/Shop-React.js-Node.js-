@@ -11,7 +11,7 @@ function MainProducts() {
     const categories = categoriesData ?? [];
 
     return (
-        <div className="min-h-screen bg-slate-50 py-8 sm:py-10">
+        <div className="min-h-screen bg-slate-50 pt-32 pb-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 <div className="mb-8">
@@ -31,12 +31,6 @@ function MainProducts() {
                     />
 
                     <main>
-                        <div className="mb-5 flex items-center justify-between">
-                            <span className="text-sm font-bold text-slate-500">
-                                {products?.products.length ?? 0} محصول
-                            </span>
-                        </div>
-
                         {isLoading ? (
                             <div className="flex min-h-80 items-center justify-center">
                                 <Loading size={40}/>

@@ -30,7 +30,7 @@ function Navbar() {
     return (
         <div>
             {/* Navbar */}
-            <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-md">
+            <header className="fixed top-0 z-50 w-full border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-md">
                 <div className="mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-2">
                         <button onClick={() => setMobileOpen(true)} className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition-all hover:bg-emerald-50 hover:text-emerald-600 lg:hidden">

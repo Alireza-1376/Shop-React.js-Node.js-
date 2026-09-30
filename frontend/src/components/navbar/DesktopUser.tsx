@@ -43,10 +43,10 @@ function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoadi
                                         <span className="text-[11px] text-emerald-600">کاربر وارد شده</span>
                                     </div>
                                 </div>
-                                <a href="#profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
+                                <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
                                     <FiUser size={18} />
                                     مشاهده پروفایل
-                                </a>
+                                </Link>
                                 {user.role === "admin" && (
                                     <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
                                         <FiSettings size={18} />

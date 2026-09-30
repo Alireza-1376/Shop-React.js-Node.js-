@@ -304,6 +304,41 @@ async function getUsers(req, res) {
     }
 }
 
+async function updateProfile(req, res) {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: errors.array()[0].msg });
+        }
+
+        const userId = req.user.userId;
+        const { username, email } = req.body;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "کاربر پیدا نشد"
+            });
+        }
+
+        user.username = username;
+        user.email = email;
+        user.isProfileCompleted = true;
+
+        await user.save();
+
+        return res.status(200).json({
+            message: "پروفایل با موفقیت ویرایش شد",
+        });
+
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "ویرایش انجام نشد" });
+    }
+}
+
 
 module.exports = {
     register,
@@ -312,5 +347,6 @@ module.exports = {
     refreshToken,
     logout,
     getUser,
-    getUsers
+    getUsers,
+    updateProfile
 };

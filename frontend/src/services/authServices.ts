@@ -21,6 +21,9 @@ export function getAllUsers(qs: string) {
     return http.get<UsersType>(`/auth/users${qs}`).then((data) => data.data)
 }
 
+export function updateProfile(data: CompleteProfileValueType) {
+    return http.put("/auth/update-profile", data)
+}
 
 export function logout() {
     return http.delete("/auth/logout")

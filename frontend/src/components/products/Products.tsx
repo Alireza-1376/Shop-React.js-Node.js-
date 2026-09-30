@@ -3,6 +3,7 @@ import { useGetCategories } from "../../hooks/useGetCategories";
 import ProductCard from "./ProductCard";
 import ProductFilters from "./ProductFilters";
 import Loading from "../../ui/Loading";
+import { Link } from "react-router-dom";
 
 function MainProducts() {
     const { isLoading, products } = useGetProducts();
@@ -33,7 +34,7 @@ function MainProducts() {
                     <main>
                         {isLoading ? (
                             <div className="flex min-h-80 items-center justify-center">
-                                <Loading size={40}/>
+                                <Loading size={40} />
                             </div>
                         ) : products?.products.length === 0 ? (
                             <div className="flex min-h-80 items-center justify-center rounded-2xl border border-slate-100 bg-white">
@@ -44,10 +45,11 @@ function MainProducts() {
                         ) : (
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                                 {products?.products.map((product) => (
-                                    <ProductCard
-                                        key={product._id}
-                                        product={product}
-                                    />
+                                    <Link to={`/products/${product._id}`} key={product._id}>
+                                        <ProductCard
+                                            product={product}
+                                        />
+                                    </Link>
                                 ))}
                             </div>
                         )}

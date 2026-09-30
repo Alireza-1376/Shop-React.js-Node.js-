@@ -19,6 +19,8 @@ import AboutUs from "./ui/About-Us";
 import ContactUs from "./ui/Contact-Us";
 import ProtectedRoute from "./ui/AdminProtectedRoute";
 import LoginProtectRoute from "./ui/LoginProtectRoute";
+import SingleProduct from "./components/products/SingleProduct";
+import Profile from "./components/auth/Profile";
 
 
 const queryClient = new QueryClient()
@@ -31,6 +33,8 @@ const App = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<MainProducts />} />
+          <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={
             <LoginProtectRoute>
               <AuthLayout />

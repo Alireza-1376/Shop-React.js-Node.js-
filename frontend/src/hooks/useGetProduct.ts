@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSingleProduct } from "../../../services/productServices";
+import { getSingleProduct } from "../services/productServices";
 import { useParams } from "react-router-dom";
 
 export function useGetProduct() {

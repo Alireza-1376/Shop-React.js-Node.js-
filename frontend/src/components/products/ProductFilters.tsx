@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 function ProductFilters({ categories }: { categories: CategoryType[] }) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const search = searchParams.get("search") ?? "";
     const category = searchParams.get("category") ?? "";
     const [price, setPrice] = useState<number[]>([1000, 30000]);
     const [isPriceChanged, setIsPriceChanged] = useState(false);

@@ -25,7 +25,7 @@ function SendPhoneNumber({ onSubmit, isPending }:
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
-            <main className="flex min-h-[calc(100vh-4.5rem)] items-center justify-center px-5 py-10">
+            <main className="flex min-h-[calc(100vh)] items-center justify-center px-5 py-10">
                 <section className="w-full max-w-md rounded-2xl bg-white p-6 shadow-sm sm:p-8">
                     <div className="mb-7 text-center">
                         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-500">

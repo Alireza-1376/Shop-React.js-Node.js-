@@ -38,7 +38,7 @@ function CompleteProfile() {
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
-            <main className="flex min-h-[calc(100vh-4.5rem)] items-center justify-center px-5 py-10">
+            <main className="flex min-h-[calc(100vh)] items-center justify-center px-5 py-10">
                 <section className="w-full max-w-md rounded-2xl bg-white p-6 shadow-sm sm:p-8">
                     <div className="mb-8 text-center">
                         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-500">
@@ -63,14 +63,16 @@ function CompleteProfile() {
                                 نام کاربری
                             </label>
 
-                            <div className="relative">
-                                <FiUser className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                <Input
-                                    name="username"
-                                    id="username"
-                                    style="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"
-                                    placeholder="نام کاربری خود را وارد کنید"
-                                />
+                            <div className=" space-y-1">
+                                <div className='flex items-center relative'>
+                                    <FiUser className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                    <Input
+                                        name="username"
+                                        id="username"
+                                        style="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"
+                                        placeholder="نام کاربری خود را وارد کنید"
+                                    />
+                                </div>
                                 <Error name="username" />
                             </div>
                         </div>
@@ -83,14 +85,16 @@ function CompleteProfile() {
                                 ایمیل
                             </label>
 
-                            <div className="relative">
-                                <FiMail className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                <Input
-                                    name="email"
-                                    id="email"
-                                    style="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"
-                                    placeholder="ایمیل خود را وارد کنید"
-                                />
+                            <div className=" space-y-1">
+                                <div className="relative">
+                                    <FiMail className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                    <Input
+                                        name="email"
+                                        id="email"
+                                        style="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"
+                                        placeholder="ایمیل خود را وارد کنید"
+                                    />
+                                </div>
                                 <Error name="email" />
                             </div>
                         </div>

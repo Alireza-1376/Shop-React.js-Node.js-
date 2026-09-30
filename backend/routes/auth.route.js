@@ -12,6 +12,18 @@ const mobileValidation = body("mobile")
     .matches(/^09\d{9}$/)
     .withMessage("شماره موبایل معتبر نیست");
 
+const profileValidation = [
+    body("username")
+        .trim()
+        .notEmpty()
+        .withMessage("نام کاربری الزامی است")
+        .isLength({ min: 3, max: 50 })
+        .withMessage("نام کاربری باید بین 3 تا 50 کاراکتر باشد"),
+    body("email")
+        .trim()
+        .isEmail()
+        .withMessage("ایمیل معتبر نیست")
+]
 
 authRoute.post("/register", mobileValidation, authController.register);
 
@@ -31,16 +43,7 @@ authRoute.post(
 authRoute.post(
     "/complete-profile",
     authenticate,
-    body("username")
-        .trim()
-        .notEmpty()
-        .withMessage("نام کاربری الزامی است")
-        .isLength({ min: 3, max: 50 })
-        .withMessage("نام کاربری باید بین 3 تا 50 کاراکتر باشد"),
-    body("email")
-        .trim()
-        .isEmail()
-        .withMessage("ایمیل معتبر نیست"),
+    profileValidation,
     authController.completeProfile
 );
 
@@ -51,5 +54,7 @@ authRoute.delete("/logout", authController.logout);
 authRoute.get("/user", authenticate, authController.getUser);
 
 authRoute.get("/users", authenticate, authorize, authController.getUsers);
+
+authRoute.put("/update-profile", authenticate, profileValidation, authController.updateProfile)
 
 module.exports = authRoute;

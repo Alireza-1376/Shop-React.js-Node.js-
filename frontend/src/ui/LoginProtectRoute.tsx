@@ -3,7 +3,7 @@ import useAuthorize from "../hooks/useAuthorize";
 import Loading from "./Loading";
 
 function LoginProtectRoute({ children }: { children: React.ReactElement }) {
-  const { isLoading, authentication } = useAuthorize()
+  const { isLoading, user, authentication } = useAuthorize()
   const location = useLocation();
 
   if (isLoading) {
@@ -14,7 +14,11 @@ function LoginProtectRoute({ children }: { children: React.ReactElement }) {
     )
   }
 
-  if ((location.pathname.includes("login") || location.pathname.includes("check-otp") || location.pathname.includes("/complete-profile")) && authentication) {
+  if ((location.pathname.includes("login") || location.pathname.includes("check-otp")) && authentication) {
+    return <Navigate to="/" replace />
+  }
+
+  if (user && user.isProfileCompleted) {
     return <Navigate to="/" replace />
   }
 

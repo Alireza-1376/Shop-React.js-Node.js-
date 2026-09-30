@@ -45,8 +45,8 @@ function ProductCard({ product }: ProductCardProps) {
                         type="button"
                         aria-label={isLiked ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
                         className={`flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-all duration-200 hover:scale-105 ${isLiked
-                                ? "border-red-100 bg-red-50 text-red-500"
-                                : "border-slate-100 bg-slate-50 text-slate-400 hover:border-red-100 hover:bg-red-50 hover:text-red-500"
+                            ? "border-red-100 bg-red-50 text-red-500"
+                            : "border-slate-100 bg-slate-50 text-slate-400 hover:border-red-100 hover:bg-red-50 hover:text-red-500"
                             }`}
                     >
                         <FiHeart
@@ -87,6 +87,7 @@ function ProductCard({ product }: ProductCardProps) {
                 </div>
 
                 <button
+                    onClick={(e) => { e.preventDefault() }}
                     type="button"
                     disabled={isOutOfStock}
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-500 px-3 py-3 text-sm font-bold text-white transition-all duration-200 hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"

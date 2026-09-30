@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import FormAddImage from "./FormAddImage"
-import { useGetProduct } from "./useGetProduct";
+import { useGetProduct } from "../../../hooks/useGetProduct";
 import DeleteImage from "./DeleteImage";
 import Loading from "../../../ui/Loading";
 
 function Image() {
     const navigate = useNavigate();
     const { isLoading, data } = useGetProduct();
-    
+
     return (
         <div>
             <div className="flex items-center justify-between mb-8">

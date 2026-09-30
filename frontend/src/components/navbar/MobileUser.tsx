@@ -30,12 +30,12 @@ function MobileUser({ setMobileOpen, user, isLoading, logout }: MobileUserPropsT
                             </div>
                         </div>
 
-                        <a href="#profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
+                        <Link to="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
                             <FiUser size={18} />
                             مشاهده پروفایل
-                        </a>
+                        </Link>
 
-                        {user.role==="admin" && (
+                        {user.role === "admin" && (
                             <Link to="/admin" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
                                 <FiSettings size={18} />
                                 پنل مدیریت

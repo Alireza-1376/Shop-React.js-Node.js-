@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 
 function ContactUs() {
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
     return (
         <div className="min-h-screen bg-slate-50 py-10 py-32">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -104,7 +111,7 @@ function ContactUs() {
 
                             <div>
                                 <label
-                                dir="rtl"
+                                    dir="rtl"
                                     htmlFor="phone"
                                     className="mb-2 block text-xs font-bold text-slate-600"
                                 >
@@ -112,7 +119,7 @@ function ContactUs() {
                                 </label>
 
                                 <input
-                                dir="rtl"
+                                    dir="rtl"
                                     id="phone"
                                     name="phone"
                                     type="tel"

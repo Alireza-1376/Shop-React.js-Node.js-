@@ -49,7 +49,7 @@ function ProductFilters({ categories }: { categories: CategoryType[] }) {
         }
     }, [inputValue])
 
-    const handleChangePrice = (event: Event, newValue: number[]) => {
+    const handleChangePrice = (_event: Event, newValue: number[]) => {
         setPrice(newValue);
         setIsPriceChanged(true)
     };

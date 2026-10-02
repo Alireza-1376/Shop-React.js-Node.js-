@@ -5,6 +5,7 @@ import Loading from "../../ui/Loading";
 import ImageGallery from "./ImageGallery";
 import SingleProductDetail from "./SingleProductDetail";
 import { useEffect } from "react";
+import CommentSection from "./Comments";
 
 function SingleProduct() {
     const { isLoading, data } = useGetProduct();
@@ -67,6 +68,8 @@ function SingleProduct() {
                         <SingleProductDetail product={data.product} />
                     </div>
                 </div>
+
+                <CommentSection productId={data.product._id}/>
             </div>
         </div>
     );

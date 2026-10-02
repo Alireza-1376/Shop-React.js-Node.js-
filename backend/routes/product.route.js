@@ -28,4 +28,6 @@ productRoute.post("/delete-image/:id" , authenticate, authorize , productControl
 
 productRoute.get("/:id", productController.getSingleProduct);
 
+productRoute.put("/like/:id" , authenticate , productController.likeProduct)
+
 module.exports = productRoute;

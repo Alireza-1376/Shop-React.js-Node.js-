@@ -28,3 +28,7 @@ export function addProductImage({ id, data }: { id: string, data: FormData }) {
 export function deleteImage({ id, data }: { id: string, data: { imageName: string } }) {
     return http.post(`/product/delete-image/${id}`, data)
 }
+
+export function likeProduct(id: string) {
+    return http.put(`/product/like/${id}`)
+}

@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { logout } from "../services/authServices";
+import { addComment } from "../../services/commentServices";
 
-
-export function useLogout() {
-    const queryClient = useQueryClient()
-    const { mutateAsync } = useMutation({
-        mutationFn: logout,
+export function useAddcomment() {
+    const queryClient = useQueryClient();
+    const { isPending, mutateAsync } = useMutation({
+        mutationFn: addComment,
         onSuccess: (data) => {
-            toast.success(data.data.message);
-            queryClient.setQueryData(["user"], null);
+            toast.success(data.data.message)
+            queryClient.invalidateQueries({
+                queryKey: ["productComment"]
+            });
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {
@@ -21,5 +22,5 @@ export function useLogout() {
         }
     })
 
-    return { mutateAsync }
+    return { isPending, mutateAsync }
 }

@@ -5,10 +5,12 @@ const multer = require('multer');
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const app = express();
+
 const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
 const authRoute = require("./routes/auth.route");
-const cartRoute = require("./routes/cart.route")
+const cartRoute = require("./routes/cart.route");
+const commentRoute = require("./routes/comment.route")
 
 app.use(express.json());
 app.use(cookieParser());
@@ -44,6 +46,7 @@ app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute)
 app.use("/api/cart", cartRoute)
+app.use("/api/comment" , commentRoute)
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     app.listen(process.env.PORT, () => {

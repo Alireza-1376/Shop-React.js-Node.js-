@@ -4,6 +4,7 @@ const fs = require("fs/promises");
 const path = require("path");
 
 const { validationResult } = require("express-validator");
+const User = require("../models/auth");
 
 async function addProduct(req, res) {
     try {
@@ -114,7 +115,7 @@ async function getProducts(req, res) {
         }
 
         const pageNumber = Number(page) || 1;
-        const pageLimit = Number(limit) || 10;
+        const pageLimit = Number(limit) || 6;
         const skip = (pageNumber - 1) * pageLimit;
 
         const products = await Product.find(filter)
@@ -245,6 +246,57 @@ async function deleteImage(req, res) {
 
 }
 
+async function likeProduct(req, res) {
+    try {
+        const userId = req.user.userId;
+        const productId = req.params.id;
+
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({
+                message: "محصول مورد نظر پیدا نشد",
+            });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "کاربر پیدا نشد"
+            });
+        }
+
+        const findLike = product.likes.find((like) => {
+            return like.toString() == userId.toString();
+        })
+
+        if (findLike) {
+            const filterProductLike = product.likes.filter(like => like != userId)
+            const filterUserLike = user.likedProducts.filter(like => like != productId)
+            product.likes = filterProductLike;
+            user.likedProducts = filterUserLike;
+            await product.save();
+            await user.save();
+            return res.status(200).json({
+                message: "لایک محصول حذف شد",
+                liked: false,
+            });
+        } else {
+            product.likes.push(userId);
+            user.likedProducts.push(productId);
+            await product.save();
+            await user.save();
+            return res.status(200).json({
+                message: "محصول با موفقیت لایک شد",
+                liked: true,
+            });
+        }
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: "خطایی در لایک محصول رخ داد" });
+    }
+}
+
 module.exports = {
     addProduct,
     updateProduct,
@@ -252,5 +304,6 @@ module.exports = {
     deleteProduct,
     addProductImage,
     getSingleProduct,
-    deleteImage
+    deleteImage,
+    likeProduct
 }

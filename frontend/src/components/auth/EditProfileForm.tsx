@@ -1,6 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FiArrowLeft, FiMail, FiUser } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import { FiMail, FiUser } from 'react-icons/fi';
 import Error from '../../ui/Error';
 import Loading from '../../ui/Loading';
 import * as Yup from 'yup';
@@ -9,7 +8,6 @@ import Input from '../../ui/Input';
 import { useUpdateProfile } from './useUpdateProfile';
 
 function EditProfileForm({ user, setEditProfile }: { user: UserItems, setEditProfile: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const navigate = useNavigate();
     const { isPending, mutateAsync } = useUpdateProfile();
 
     const initialValue: CompleteProfileValueType = {

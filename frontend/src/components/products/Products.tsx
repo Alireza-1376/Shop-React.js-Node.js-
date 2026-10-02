@@ -4,12 +4,20 @@ import ProductCard from "./ProductCard";
 import ProductFilters from "./ProductFilters";
 import Loading from "../../ui/Loading";
 import { Link } from "react-router-dom";
+import PaginationBtns from "../../ui/Pagination";
+import { useEffect } from "react";
 
 function MainProducts() {
     const { isLoading, products } = useGetProducts();
     const { data: categoriesData } = useGetCategories();
-
     const categories = categoriesData ?? [];
+
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
 
     return (
         <div className="min-h-screen bg-slate-50 pt-32 pb-10">
@@ -54,8 +62,10 @@ function MainProducts() {
                             </div>
                         )}
                     </main>
-
                 </div>
+                {products && products.totalProducts != 0 &&
+                    <PaginationBtns currentPage={products?.currentPage} lastPage={products?.totalPages} />
+                }
             </div>
         </div>
     );

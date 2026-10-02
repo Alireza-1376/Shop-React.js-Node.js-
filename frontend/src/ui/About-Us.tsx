@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { FiHeart, FiShield, FiTruck } from "react-icons/fi";
 
 function AboutUs() {
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
     return (
         <div className="min-h-screen bg-slate-50 py-10 py-32">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">

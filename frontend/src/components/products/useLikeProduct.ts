@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { likeProduct } from "../../services/productServices";
 import toast from "react-hot-toast";
-import { logout } from "../services/authServices";
+import axios from "axios";
 
-
-export function useLogout() {
-    const queryClient = useQueryClient()
+export function useLikeProduct() {
+    const queryClient = useQueryClient();
     const { mutateAsync } = useMutation({
-        mutationFn: logout,
-        onSuccess: (data) => {
-            toast.success(data.data.message);
-            queryClient.setQueryData(["user"], null);
+        mutationFn: likeProduct,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["products"]
+            });
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {

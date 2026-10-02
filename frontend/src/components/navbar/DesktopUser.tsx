@@ -39,7 +39,7 @@ function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoadi
                                 <div className="mb-2 flex items-center gap-3 rounded-xl bg-emerald-50 p-3">
                                     <img src="/images/user.jpg" alt="user" className="h-10 w-10 rounded-full object-cover" />
                                     <div>
-                                        <p className="m-0 text-sm font-bold text-slate-800">علیرضا حبیبی</p>
+                                        <p className="m-0 text-sm font-bold text-slate-800">{user.username}</p>
                                         <span className="text-[11px] text-emerald-600">کاربر وارد شده</span>
                                     </div>
                                 </div>

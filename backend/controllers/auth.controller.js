@@ -194,7 +194,7 @@ async function refreshToken(req, res) {
         const refreshToken = req.cookies?.refreshToken;
         if (!refreshToken) {
             return res.status(401).json({
-                message: "Refresh token یافت نشد"
+                message: "لطفا وارد شوید"
             });
         }
 

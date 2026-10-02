@@ -37,8 +37,13 @@ function PaginationBtns({ currentPage, lastPage }: { currentPage: number, lastPa
     const location = useLocation()
     const pathname = location.pathname;
     const navigate = useNavigate();
+    
     function handleChange(page: number) {
         navigate(`${pathname}?page=${page}`)
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
     }
     const pages = getPages(currentPage, lastPage)
 

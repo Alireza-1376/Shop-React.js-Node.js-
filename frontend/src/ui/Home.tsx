@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Home() {
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
     return (
         <main className="">
             <section id="home" className="flex min-h-screen items-center justify-center px-6">

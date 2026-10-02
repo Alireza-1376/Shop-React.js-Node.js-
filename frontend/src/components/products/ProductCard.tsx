@@ -1,12 +1,23 @@
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
 import type { ProductType } from "../../types/product";
 import toPersianNumber from "../../utils/toPersianNumber";
+import { useLikeProduct } from "./useLikeProduct";
+import { useUser } from "../../hooks/useUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProductCardProps = {
     product: ProductType;
 };
 
 function ProductCard({ product }: ProductCardProps) {
+    const queryClient = useQueryClient();
+    const { mutateAsync } = useLikeProduct();
+    const { user } = useUser()
+    async function handleLikeProduct(id: string) {
+        await mutateAsync(id)
+        await queryClient.invalidateQueries({ queryKey: ["user"] });
+    }
+
     const hasDiscount = product.discount > 0;
     const isOutOfStock = product.stock <= 0;
 
@@ -15,7 +26,10 @@ function ProductCard({ product }: ProductCardProps) {
         : product.price;
 
     const image = product.image?.[0];
-    const isLiked = product.likes?.length > 0;
+
+    const isLiked = user?.likedProducts?.some(
+        (like) => like === product._id.toString()
+    );
 
     return (
         <div className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/5">
@@ -42,17 +56,11 @@ function ProductCard({ product }: ProductCardProps) {
                     </h3>
 
                     <button
-                        type="button"
-                        aria-label={isLiked ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
-                        className={`flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-all duration-200 hover:scale-105 ${isLiked
-                            ? "border-red-100 bg-red-50 text-red-500"
-                            : "border-slate-100 bg-slate-50 text-slate-400 hover:border-red-100 hover:bg-red-50 hover:text-red-500"
-                            }`}
+                        className="flex items-center justify-center gap-1 cursor-pointer bg-red-100 hover:bg-red-200 transition-all duration-200 p-1 rounded-md"
+                        onClick={(e) => { e.preventDefault(); handleLikeProduct(product._id) }}
                     >
-                        <FiHeart
-                            size={17}
-                            className={isLiked ? "fill-red-500" : ""}
-                        />
+                        <span className={`text-red-500 text-sm`}>{toPersianNumber(product.likes.length)}</span>
+                        <FiHeart size={17} className={`${isLiked && "fill-red-500"} text-red-500`} />
                     </button>
                 </div>
 

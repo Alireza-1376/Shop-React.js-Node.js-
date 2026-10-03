@@ -51,11 +51,11 @@ async function deleteCategory(req, res) {
         if (deletedCategory) {
             return res.status(200).json({ message: "دسته بندی با موفقیت حذف شد" });
         } else {
-            return res.status(404).json({ error: "دسته بندی یافت نشد" });
+            return res.status(404).json({ message: "دسته بندی یافت نشد" });
         }
 
     } catch (error) {
-        return res.status(500).json({ error: "خطایی در سمت سرور رخ داده است" })
+        return res.status(500).json({ message: "خطایی در سمت سرور رخ داده است" })
     }
 }
 

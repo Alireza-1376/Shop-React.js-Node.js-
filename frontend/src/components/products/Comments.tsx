@@ -9,8 +9,12 @@ import { useGetProductComments } from "./useGetProductComments";
 import { useAddcomment } from "./useAddComment";
 import toLocalDateShort from "../../utils/toLocalDateShort";
 import Modal from "../../ui/Modal";
+import { useUser } from "../../hooks/useUser";
+import CommentActions from "./CommentActions";
 
 function CommentSection({ productId }: { productId: string }) {
+    const { user } = useUser()
+    console.log(user)
     const [isReply, setIsReply] = useState(false);
     const { isLoading, data } = useGetProductComments();
     const { isPending, mutateAsync } = useAddcomment();
@@ -140,20 +144,9 @@ function CommentSection({ productId }: { productId: string }) {
                                                     <p className="mt-2 text-sm font-medium leading-7 text-slate-500">
                                                         {comment.text}
                                                     </p>
-                                                    <div className="mt-2 flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            className="cursor-pointer text-xs font-bold text-blue-500 transition hover:text-blue-600"
-                                                        >
-                                                            ویرایش
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="cursor-pointer text-xs font-bold text-red-500 transition hover:text-red-600"
-                                                        >
-                                                            حذف
-                                                        </button>
-                                                    </div>
+                                                    {user && user._id.toString() == comment.user?._id.toString() ?
+                                                        <CommentActions comment={comment} />
+                                                        : ""}
                                                 </div>
 
                                                 <button
@@ -200,21 +193,10 @@ function CommentSection({ productId }: { productId: string }) {
                                                                 <p className="mt-1 text-xs font-medium leading-6 text-slate-500">
                                                                     {reply.text}
                                                                 </p>
-                                                                <div className="mt-2 flex items-center gap-3">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="cursor-pointer text-xs font-bold text-blue-500 transition hover:text-blue-600"
-                                                                    >
-                                                                        ویرایش
-                                                                    </button>
+                                                                {user && user._id.toString() == reply.user?._id.toString() ?
+                                                                    <CommentActions comment={reply} />
+                                                                    : ""}
 
-                                                                    <button
-                                                                        type="button"
-                                                                        className="cursor-pointer text-xs font-bold text-red-500 transition hover:text-red-600"
-                                                                    >
-                                                                        حذف
-                                                                    </button>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -8,3 +8,11 @@ export function addComment(data: AddCommentPayload) {
 export function getProductComments(id: string) {
     return http.get<CommentType[]>(`/comment/product-comment/${id}`).then((data) => data.data)
 }
+
+export function deleteComment(id: string) {
+    return http.delete(`/comment/delete/${id}`)
+}
+
+export function updateComment({ id, data }: { id: string, data: { text: string } }) {
+    return http.put(`/comment/update/${id}`, data)
+}

@@ -62,7 +62,86 @@ async function getProductComments(req, res) {
     }
 }
 
+async function deleteComment(req, res) {
+    try {
+        const commentId = req.params.id;
+
+        const comment = await Comment.findById(commentId);
+
+        if (!comment) {
+            return res.status(404).json({
+                message: "نظر یافت نشد",
+            });
+        }
+
+        if (comment.user.toString() !== req.user.userId) {
+            return res.status(403).json({
+                message: "شما اجازه حذف این نظر را ندارید",
+            });
+        }
+
+        await Comment.deleteOne({ _id: commentId });
+
+        await Comment.deleteMany({
+            parent: commentId,
+        });
+
+        return res.status(200).json({
+            message: "نظر با موفقیت حذف شد",
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            message: "خطایی از سمت سرور رخ داده است",
+        });
+    }
+}
+
+async function updateComment(req, res) {
+    try {
+        
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: errors.array()[0].msg })
+        }
+
+
+        const commentId = req.params.id;
+        const text = req.body.text;
+
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({
+                message: "نظر یافت نشد",
+            });
+        }
+
+        if (comment.user.toString() !== req.user.userId) {
+            return res.status(403).json({
+                message: "شما اجازه ویرایش این نظر را ندارید",
+            });
+        }
+
+        comment.text = text;
+        await comment.save();
+
+        return res.status(200).json({
+            message: "نظر با موفقیت ویرایش شد",
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "خطایی از سمت سرور رخ داده است",
+        });
+    }
+}
+
 module.exports = {
     addComment,
-    getProductComments
+    getProductComments,
+    deleteComment,
+    updateComment
 }

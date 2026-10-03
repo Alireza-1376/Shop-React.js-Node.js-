@@ -3,7 +3,6 @@ import { FiMenu, FiX } from "react-icons/fi";
 import DesktopUser from "./DesktopUser";
 import MobileUser from "./MobileUser";
 import DesktopCart from "./DesktopCart";
-import MobileCart from "./MobileCart";
 import NavItems from "./NavItems";
 import Logo from "./Logo";
 import useOutsideClick from "../../hooks/useOutsideClick";
@@ -43,7 +42,7 @@ function Navbar() {
                         <NavItems />
                     </div>
                     <div className="flex items-center gap-2">
-                        <DesktopCart />
+                        <DesktopCart user={user} />
                         <DesktopUser logout={logout} isLoading={isLoading} user={user} userMenuRef={userMenuRef} userMenuOpen={userMenuOpen} setUserMenuOpen={setUserMenuOpen} />
                     </div>
                 </div>
@@ -65,7 +64,6 @@ function Navbar() {
                 <div className="flex-1 overflow-y-auto p-4">
                     <NavItems />
                     <div className="my-4 border-t border-slate-100" />
-                    <MobileCart setMobileOpen={setMobileOpen} />
                     <div className="my-4 border-t border-slate-100" />
                     <MobileUser logout={logout} isLoading={isLoading} user={user} setMobileOpen={setMobileOpen} />
                 </div>

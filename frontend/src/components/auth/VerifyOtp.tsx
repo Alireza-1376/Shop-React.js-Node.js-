@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiArrowRight, FiClock, FiMessageSquare } from "react-icons/fi";
 import OtpInput from "react-otp-input";
 import { useVerifyOtp } from "./useVerifyOtp";
 import Loading from "../../ui/Loading";
 import { useNavigate } from "react-router-dom";
+import { useMergeCart } from "../../hooks/useMergeCart";
+import { CartContext } from "../../context/CartContext";
 
 function VerifyOtp({ mobile, onSubmit }: {
     mobile: string,
     onSubmit: (values: { mobile: string }) => Promise<void>;
 }) {
+    const { merge } = useMergeCart();
+    const { cart, setCart } = useContext(CartContext);
     const [otp, setOtp] = useState("");
     const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);
@@ -30,8 +34,12 @@ function VerifyOtp({ mobile, onSubmit }: {
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
         await mutateAsync({ mobile, otp }, {
-            onSuccess: (data) => {
-               
+            onSuccess: async (data) => {
+                if (cart.length > 0) {
+                    await merge(cart)
+                    localStorage.removeItem("cart")
+                    setCart([])
+                }
                 if (data.data.user.isProfileCompleted) {
                     navigate("/", { replace: true })
                 } else {
@@ -43,7 +51,7 @@ function VerifyOtp({ mobile, onSubmit }: {
     };
 
     const handleResend = () => {
-        onSubmit({mobile})
+        onSubmit({ mobile })
         setOtp("");
         setTimeLeft(120);
     };

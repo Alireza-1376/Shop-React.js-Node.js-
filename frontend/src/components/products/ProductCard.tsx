@@ -4,6 +4,9 @@ import toPersianNumber from "../../utils/toPersianNumber";
 import { useLikeProduct } from "./useLikeProduct";
 import { useUser } from "../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAddToCart } from "./useAddToCart";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 type ProductCardProps = {
     product: ProductType;
@@ -12,7 +15,10 @@ type ProductCardProps = {
 function ProductCard({ product }: ProductCardProps) {
     const queryClient = useQueryClient();
     const { mutateAsync } = useLikeProduct();
-    const { user } = useUser()
+    const { user } = useUser();
+    const { add } = useAddToCart();
+    const { addToLocalCart } = useContext(CartContext);
+    
     async function handleLikeProduct(id: string) {
         await mutateAsync(id)
         await queryClient.invalidateQueries({ queryKey: ["user"] });
@@ -21,15 +27,23 @@ function ProductCard({ product }: ProductCardProps) {
     const hasDiscount = product.discount > 0;
     const isOutOfStock = product.stock <= 0;
 
-    const finalPrice = hasDiscount
-        ? product.price - (product.price * product.discount) / 100
-        : product.price;
-
+    const finalPrice = hasDiscount ? product.price - (product.price * product.discount) / 100 : product.price;
     const image = product.image?.[0];
 
     const isLiked = user?.likedProducts?.some(
         (like) => like === product._id.toString()
     );
+
+
+    async function handleAddToCart() {
+        if (!user) {
+            addToLocalCart(product._id);
+            return;
+        }
+
+        await add(product._id)
+
+    }
 
     return (
         <div className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/5">
@@ -95,7 +109,7 @@ function ProductCard({ product }: ProductCardProps) {
                 </div>
 
                 <button
-                    onClick={(e) => { e.preventDefault() }}
+                    onClick={(e) => { e.preventDefault(); handleAddToCart() }}
                     type="button"
                     disabled={isOutOfStock}
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-500 px-3 py-3 text-sm font-bold text-white transition-all duration-200 hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"

@@ -53,6 +53,7 @@ async function mergeCart(req, res) {
     try {
         const userId = req.user.userId;
         const localCart = req.body.cart;
+      
         if (!localCart) {
             return res.status(400).json({ message: "سبد خرید نامعتبر است" });
         }

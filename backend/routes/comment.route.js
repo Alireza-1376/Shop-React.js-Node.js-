@@ -19,5 +19,7 @@ const addCommentValidator = [
 
 commentRoute.post("/add", authenticate, addCommentValidator, commentController.addComment);
 commentRoute.get("/product-comment/:id", commentController.getProductComments);
+commentRoute.delete("/delete/:id", authenticate, commentController.deleteComment);
+commentRoute.put("/update/:id", authenticate, addCommentValidator, commentController.updateComment);
 
 module.exports = commentRoute;

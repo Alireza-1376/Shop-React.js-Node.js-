@@ -21,6 +21,7 @@ import ProtectedRoute from "./ui/AdminProtectedRoute";
 import LoginProtectRoute from "./ui/LoginProtectRoute";
 import SingleProduct from "./components/products/SingleProduct";
 import Profile from "./components/auth/Profile";
+import Cart from "./ui/Cart";
 
 
 const queryClient = new QueryClient()
@@ -52,6 +53,7 @@ const App = () => {
           } />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="/admin" element={
           <ProtectedRoute>

@@ -2,8 +2,24 @@ import { FiCheck, FiShoppingCart } from "react-icons/fi"
 import type { ProductType } from "../../types/product"
 import toPersianPrice from "../../utils/toPersianPrice"
 import toPersianNumber from "../../utils/toPersianNumber"
+import { useUser } from "../../hooks/useUser";
+import { useAddToCart } from "./useAddToCart";
+import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
 
 function SingleProductDetail({ product }: { product: ProductType }) {
+    const { user } = useUser();
+    const { add } = useAddToCart();
+    const { addToLocalCart } = useContext(CartContext);
+
+    async function handleAddToCart() {
+        if (!user) {
+            addToLocalCart(product);
+            return;
+        }
+        await add(product._id)
+    }
+
     const isOutOfStock = product.stock <= 0;
     const hasDiscount = product.discount > 0;
     const finalPrice = hasDiscount
@@ -86,14 +102,12 @@ function SingleProductDetail({ product }: { product: ProductType }) {
 
             {/* Add to cart */}
             <button
+                onClick={() => { handleAddToCart() }}
                 type="button"
-                disabled={isOutOfStock}
                 className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-white transition-all hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
             >
                 <FiShoppingCart size={19} />
-                {isOutOfStock
-                    ? "محصول ناموجود است"
-                    : "افزودن به سبد خرید"}
+                افزودن به سبد خرید
             </button>
         </div>
     )

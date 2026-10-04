@@ -13,6 +13,7 @@ function VerifyOtp({ mobile, onSubmit }: {
 }) {
     const { merge } = useMergeCart();
     const { cart, setCart } = useContext(CartContext);
+    console.log(cart)
     const [otp, setOtp] = useState("");
     const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);

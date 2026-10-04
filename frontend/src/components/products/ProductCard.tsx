@@ -18,7 +18,7 @@ function ProductCard({ product }: ProductCardProps) {
     const { user } = useUser();
     const { add } = useAddToCart();
     const { addToLocalCart } = useContext(CartContext);
-    
+
     async function handleLikeProduct(id: string) {
         await mutateAsync(id)
         await queryClient.invalidateQueries({ queryKey: ["user"] });
@@ -37,12 +37,10 @@ function ProductCard({ product }: ProductCardProps) {
 
     async function handleAddToCart() {
         if (!user) {
-            addToLocalCart(product._id);
+            addToLocalCart(product);
             return;
         }
-
         await add(product._id)
-
     }
 
     return (

@@ -53,7 +53,7 @@ async function mergeCart(req, res) {
     try {
         const userId = req.user.userId;
         const localCart = req.body.cart;
-      
+
         if (!localCart) {
             return res.status(400).json({ message: "سبد خرید نامعتبر است" });
         }
@@ -146,7 +146,7 @@ async function deleteOneItem(req, res) {
 
         await user.save();
 
-        return res.status(200).json({ cart: user.cart })
+        return res.status(200).json({ message: "محصول از سبد خرید حذف شد", cart: user.cart })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "خطایی در سرور رخ داد" });
@@ -157,13 +157,20 @@ async function deleteOneItem(req, res) {
 async function deleteAllItems(req, res) {
     try {
         const userId = req.user.userId;
+        const productId = req.params.id;
         const user = await User.findById(userId)
         if (!user) {
             return res.status(404).json({ message: "کاربر پیدا نشد" });
         }
-        user.cart = [];
+
+        const filterCart = user.cart.filter((item) => {
+            return item.product != productId;
+        })
+
+        user.cart = filterCart;
         await user.save();
-        return res.status(200).json({ cart: user.cart })
+        return res.status(200).json({ message: "محصول از سبد خرید حذف شد", cart: user.cart })
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "خطایی در سرور رخ داد" });

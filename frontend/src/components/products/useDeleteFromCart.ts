@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { mergeCart } from "../services/cartServices";
+import { deleteItem } from "../../services/cartServices";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-export function useMergeCart() {
-    const queryClient = useQueryClient()
-    const { isPending, mutateAsync:merge } = useMutation({
-        mutationFn: mergeCart,
-        onSuccess: () => {
+export function useDeleteFromCart() {
+    const queryClient = useQueryClient();
+    const { isPending, mutateAsync:deleteFromCart} = useMutation({
+        mutationFn: deleteItem,
+        onSuccess: (data) => {
+            toast.success(data.data.message)
             queryClient.invalidateQueries({
                 queryKey: ["user"]
             });
@@ -21,5 +22,5 @@ export function useMergeCart() {
         }
     })
 
-    return { isPending, merge }
+    return { isPending, deleteFromCart}
 }

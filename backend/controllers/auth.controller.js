@@ -266,7 +266,7 @@ async function logout(req, res) {
 async function getUser(req, res) {
     try {
         const userId = req.user.userId;
-        const user = await User.findById(userId).populate("cart")
+        const user = await User.findById(userId).populate("cart.product")
         if (!user) {
             return res.status(404).json({ message: "کاربر پیدا نشد" });
         }

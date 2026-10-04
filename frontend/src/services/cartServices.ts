@@ -6,5 +6,13 @@ export function addToCart(id: string) {
 }
 
 export function mergeCart(data: CartItem[]) {
-    return http.post("/cart/merge", {cart : data})
+    return http.post("/cart/merge", { cart: data })
+}
+
+export function deleteItem(id: string) {
+    return http.delete(`/cart/delete/${id}`)
+}
+
+export function deleteAllItems(id: string) {
+    return http.delete(`/cart/delete-all/${id}`)
 }

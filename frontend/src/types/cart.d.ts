@@ -1,4 +1,6 @@
+import type { ProductType } from "./product";
+
 export type CartItem = {
-    product: string;
+    product: ProductType;
     quantity: number;
 };

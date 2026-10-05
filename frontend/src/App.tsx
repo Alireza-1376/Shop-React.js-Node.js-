@@ -22,6 +22,7 @@ import LoginProtectRoute from "./ui/LoginProtectRoute";
 import SingleProduct from "./components/products/SingleProduct";
 import Profile from "./components/auth/Profile";
 import Cart from "./ui/Cart";
+import Checkout from "./components/checkout/Checkout";
 
 
 const queryClient = new QueryClient()
@@ -51,9 +52,15 @@ const App = () => {
               <CompleteProfile />
             </LoginProtectRoute>
           } />
+
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={
+            <LoginProtectRoute>
+              <Checkout />
+            </LoginProtectRoute>
+          } />
         </Route>
         <Route path="/admin" element={
           <ProtectedRoute>

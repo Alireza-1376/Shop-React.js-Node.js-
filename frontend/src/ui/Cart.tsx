@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiArrowRight, FiMinus, FiPlus, FiShoppingCart, FiTrash2 } from "react-icons/fi";
 import { CartContext } from "../context/CartContext";
 import toPersianPrice from "../utils/toPersianPrice";
@@ -16,6 +16,7 @@ function Cart() {
     const { add } = useAddToCart();
     const { deleteFromCart } = useDeleteFromCart();
     const { deleteCartItems } = useDeleteCartItems();
+    const navigate = useNavigate();
 
     const cart = user ? user.cart : localCart;
 
@@ -50,10 +51,10 @@ function Cart() {
         await deleteFromCart(product._id)
     }
 
-    async function handleDeleteCartItems(product: ProductType){
-        if(!user){
+    async function handleDeleteCartItems(product: ProductType) {
+        if (!user) {
             removeFromLocalCart(product)
-            return ;
+            return;
         }
         await deleteCartItems(product._id)
     }
@@ -208,6 +209,13 @@ function Cart() {
                             </div>
 
                             <button
+                                onClick={() => {
+                                    if (user) {
+                                        navigate("/checkout")
+                                    } else {
+                                        navigate("/login")
+                                    }
+                                }}
                                 type="button"
                                 className="mt-6 cursor-pointer w-full rounded-xl bg-emerald-500 py-3.5 text-sm font-black text-white transition-all hover:bg-emerald-600"
                             >

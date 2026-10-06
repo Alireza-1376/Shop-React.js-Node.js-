@@ -1,7 +1,18 @@
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function Home() {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+
+    if (payment === "success") {
+        toast.success("پرداخت با موفقیت انجام شد")
+    }
+
+    if (payment === "failed") {
+        toast.error("پرداخت انجام نشد")
+    }
     
     useEffect(() => {
         window.scroll({

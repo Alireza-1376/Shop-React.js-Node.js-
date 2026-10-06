@@ -10,7 +10,14 @@ const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
 const authRoute = require("./routes/auth.route");
 const cartRoute = require("./routes/cart.route");
-const commentRoute = require("./routes/comment.route")
+const commentRoute = require("./routes/comment.route");
+const orderRoute = require("./routes/order.route");
+
+const { checkExpiredOrders } = require("./controllers/order.controller")
+setInterval(() => {
+    checkExpiredOrders();
+}, 60 * 1000);
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -46,7 +53,8 @@ app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute)
 app.use("/api/cart", cartRoute)
-app.use("/api/comment" , commentRoute)
+app.use("/api/comment", commentRoute)
+app.use("/api/order", orderRoute)
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     app.listen(process.env.PORT, () => {

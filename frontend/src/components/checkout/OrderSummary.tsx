@@ -3,14 +3,17 @@ import toPersianPrice from "../../utils/toPersianPrice";
 import toPersianNumber from "../../utils/toPersianNumber";
 import CheckoutProductItem from "./CheckoutProductItem";
 import type { CartItem } from "../../types/cart";
+import Loading from "../../ui/Loading";
 
 interface OrderSummaryProps {
+    isPending: boolean
     cart: CartItem[];
     totalPrice: number;
     totalItems: number;
 }
 
 function OrderSummary({
+    isPending,
     cart,
     totalPrice,
     totalItems,
@@ -70,9 +73,10 @@ function OrderSummary({
 
                 <button
                     type="submit"
-                    className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-xl bg-emerald-500 text-sm font-medium text-white transition-all hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="mt-6 flex h-12 w-full cursor-pointer items-center text-white justify-center rounded-xl bg-emerald-500 text-sm font-medium  transition-all hover:bg-emerald-600"
                 >
-                    ادامه و پرداخت
+                    {isPending ? <div className="flex items-center justify-center"><Loading size={20} /></div> : "ادامه و پرداخت"}
+
                 </button>
             </div>
         </div>

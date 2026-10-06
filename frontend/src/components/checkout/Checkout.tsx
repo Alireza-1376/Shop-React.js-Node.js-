@@ -6,9 +6,13 @@ import OrderSummary from "./OrderSummary";
 import type { CartItem } from "../../types/cart";
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
+import { useSendAddress } from "./useSendAddress";
+import type { AddressType } from "../../types/order";
 
 function Checkout() {
     const { user } = useUser();
+    const { isPending, mutateAsync } = useSendAddress();
+
     const address = {
         address: ""
     }
@@ -38,8 +42,12 @@ function Checkout() {
         address: Yup.string().required("لطفا آدرس خود را وارد کنید")
     })
 
-    const handleSubmit = (values: {}) => {
-        console.log(values)
+    const handleSubmit = async (values: AddressType) => {
+        await mutateAsync(values, {
+            onSuccess: (data) => {
+                window.location.assign(data.data.paymentUrl);
+            }
+        })
     }
 
     return (
@@ -55,10 +63,11 @@ function Checkout() {
                         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                             <div className="space-y-6 lg:col-span-2">
                                 <ReceiverInfo />
-                                <AddressForm name="address"/>
+                                <AddressForm name="address" />
                             </div>
 
                             <OrderSummary
+                                isPending={isPending}
                                 cart={cart}
                                 totalPrice={totalPrice}
                                 totalItems={totalItems}
@@ -70,5 +79,7 @@ function Checkout() {
         </Formik>
     );
 }
+
+
 
 export default Checkout;

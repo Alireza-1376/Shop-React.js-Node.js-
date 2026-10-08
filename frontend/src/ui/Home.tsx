@@ -1,19 +1,25 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 function Home() {
-    const params = new URLSearchParams(window.location.search);
-    const payment = params.get("payment");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const payment = searchParams.get('payment')
 
-    if (payment === "success") {
-        toast.success("پرداخت با موفقیت انجام شد")
-    }
+    useEffect(() => {
+        if (payment === "success") {
+            toast.success("پرداخت با موفقیت انجام شد");
+        }
 
-    if (payment === "failed") {
-        toast.error("پرداخت انجام نشد")
-    }
-    
+        if (payment === "failed" || payment === "error") {
+            toast.error("پرداخت انجام نشد");
+        }
+
+        if (payment) {
+            setSearchParams({});
+        }
+    }, [payment, setSearchParams]);
+
     useEffect(() => {
         window.scroll({
             top: 0,

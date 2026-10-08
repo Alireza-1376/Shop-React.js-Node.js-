@@ -1,4 +1,4 @@
-import { FiLogIn, FiLogOut, FiSettings, FiUser } from "react-icons/fi"
+import { FiLogIn, FiLogOut, FiSettings, FiShoppingBag, FiUser } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import type { UserItems } from "../../types/auth";
 import Loading from "../../ui/Loading";
@@ -33,6 +33,10 @@ function MobileUser({ setMobileOpen, user, isLoading, logout }: MobileUserPropsT
                         <Link to="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
                             <FiUser size={18} />
                             مشاهده پروفایل
+                        </Link>
+                        <Link to="/orders" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition-all hover:bg-emerald-50 hover:text-emerald-600">
+                            <FiShoppingBag size={18} />
+                            مشاهده سفارشات
                         </Link>
 
                         {user.role === "admin" && (

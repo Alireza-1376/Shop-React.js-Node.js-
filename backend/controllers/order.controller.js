@@ -38,7 +38,6 @@ async function checkExpiredOrders() {
         await restoreStock(order);
 
         order.paymentStatus = "failed";
-        order.status = "failed";
 
         await order.save();
     }
@@ -161,22 +160,21 @@ async function paymentCallback(req, res) {
 
         if (!order) {
             return res.redirect(
-                "http://localhost:5173/?payment=not-found"
+                `${process.env.FRONTEND_URL}/?payment=not-found`
             );
         }
 
         if (order.paymentStatus === "paid") {
             return res.redirect(
-                `http://localhost:5173/not-found`
+                `${process.env.FRONTEND_URL}/not-found`
             );
         }
 
         if (Status !== "OK") {
             order.paymentStatus = "failed";
-            order.status = "failed";
             await restoreStock(order);
             return res.redirect(
-                "http://localhost:5173/?payment=failed"
+                `${process.env.FRONTEND_URL}/?payment=failed`
             );
         }
 
@@ -189,7 +187,6 @@ async function paymentCallback(req, res) {
         if (verify.data.code === 100 || verify.data.code === 101) {
 
             order.paymentStatus = "paid";
-            order.status = "paid";
 
             if (verify.data.ref_id) {
                 order.transactionId =
@@ -205,29 +202,75 @@ async function paymentCallback(req, res) {
             });
 
             return res.redirect(
-                "http://localhost:5173/?payment=success"
+                `${process.env.FRONTEND_URL}/?payment=success`
             );
         }
 
         order.paymentStatus = "failed";
-        order.status = "failed";
+
         await restoreStock(order);
 
         return res.redirect(
-            "http://localhost:5173/?payment=failed"
+            `${process.env.FRONTEND_URL}/?payment=failed`
         );
 
     } catch (error) {
         console.error("Payment callback error:", error);
-
         return res.redirect(
-            "http://localhost:5173/?payment=error"
+            `${process.env.FRONTEND_URL}/?payment=error`
         );
+    }
+}
+
+async function userOrders(req, res) {
+    try {
+        const userId = req.user.userId;
+        const orders = await Order.find({ user: userId })
+
+        if (!orders) {
+            return res.status(404).json({
+                message: "سفارش یافت نشد"
+            });
+        }
+
+        return res.status(200).json(orders)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "خطایی در سرور رخ داد"
+        });
+    }
+}
+
+async function adminOrders(req, res) {
+    try {
+        const { page, limit } = req.query;
+        const pageNumber = Number(page) || 1;
+        const pageLimit = Number(limit) || 10;
+        const skip = (pageNumber - 1) * pageLimit;
+
+        const orders = await Order.find().skip(skip).limit(pageLimit).populate("user").sort({ createdAt: -1 });
+        if (!orders) {
+            return res.status(404).json({
+                message: "سفارش یافت نشد"
+            });
+        }
+
+        return res.status(200).json(orders)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "خطایی در سرور رخ داد"
+        });
     }
 }
 
 module.exports = {
     checkout,
     paymentCallback,
-    checkExpiredOrders
+    checkExpiredOrders,
+    userOrders,
+    adminOrders
 }

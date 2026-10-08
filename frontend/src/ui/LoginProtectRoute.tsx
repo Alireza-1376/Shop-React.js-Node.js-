@@ -18,12 +18,16 @@ function LoginProtectRoute({
     );
   }
 
-  
+
   if (location.pathname.includes("checkout") && !user) {
     return <Navigate to="/" replace />;
   }
 
-  
+  if (location.pathname.includes("orders") && !user) {
+    return <Navigate to="/" replace />;
+  }
+
+
   if (
     (location.pathname.includes("login") ||
       location.pathname.includes("check-otp")) &&

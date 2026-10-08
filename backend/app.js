@@ -13,7 +13,8 @@ const cartRoute = require("./routes/cart.route");
 const commentRoute = require("./routes/comment.route");
 const orderRoute = require("./routes/order.route");
 
-const { checkExpiredOrders } = require("./controllers/order.controller")
+const { checkExpiredOrders } = require("./controllers/order.controller");
+
 setInterval(() => {
     checkExpiredOrders();
 }, 60 * 1000);
@@ -40,7 +41,7 @@ function fileFilter(req, file, cb) {
 }
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', "http://localhost:5173");
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
     res.setHeader("Access-Control-Allow-Credentials", "true")
     res.setHeader('Access-Control-Allow-Headers', "Content-Type , Authorization");
     res.setHeader('Access-Control-Allow-Methods', "POST , DELETE , PUT , GET");

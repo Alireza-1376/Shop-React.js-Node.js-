@@ -1,8 +1,7 @@
-import { FiChevronDown, FiLogIn, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
+import { FiChevronDown, FiLogIn, FiLogOut, FiSettings, FiUser, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import type { UserItems } from "../../types/auth";
 import Loading from "../../ui/Loading";
-
 type DesktopUserPropsTypes = {
     userMenuRef: React.RefObject<HTMLDivElement | null>
     userMenuOpen: boolean
@@ -46,6 +45,10 @@ function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoadi
                                 <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
                                     <FiUser size={18} />
                                     مشاهده پروفایل
+                                </Link>
+                                <Link to="/orders" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">
+                                    <FiShoppingBag size={18} />
+                                    مشاهده سفارشات
                                 </Link>
                                 {user.role === "admin" && (
                                     <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600">

@@ -113,7 +113,7 @@ function OrdersList() {
                                 <div className="space-y-3">
                                     {order.items.map((item) => (
                                         <div
-                                            key={item.product}
+                                            key={item.product._id}
                                             className="flex flex-col gap-3 rounded-xl bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between"
                                         >
                                             <div className="min-w-0">

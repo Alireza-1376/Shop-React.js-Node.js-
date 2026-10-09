@@ -19,10 +19,12 @@ const adressValidator = [
 
 orderRoute.post("/checkout", authenticate, adressValidator, orderController.checkout)
 
-orderRoute.get("/payment/callback" , orderController.paymentCallback)
+orderRoute.get("/payment/callback", orderController.paymentCallback)
 
-orderRoute.get("/users-orders-list" , authenticate , orderController.userOrders)
+orderRoute.get("/users-orders-list", authenticate, orderController.userOrders)
 
-orderRoute.get("/admin-orders-list" , authenticate , authorize , orderController.adminOrders)
+orderRoute.get("/admin-orders-list", authenticate, authorize, orderController.adminOrders)
+
+orderRoute.put("/change-status/:id", authenticate, authorize, orderController.changeStatus)
 
 module.exports = orderRoute;

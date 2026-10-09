@@ -250,14 +250,45 @@ async function adminOrders(req, res) {
         const pageLimit = Number(limit) || 10;
         const skip = (pageNumber - 1) * pageLimit;
 
-        const orders = await Order.find().skip(skip).limit(pageLimit).populate("user").sort({ createdAt: -1 });
+        const orders = await Order.find().skip(skip).limit(pageLimit).populate("user").populate("items.product").sort({ createdAt: -1 });
         if (!orders) {
             return res.status(404).json({
                 message: "سفارش یافت نشد"
             });
         }
+        const totalOrders = await Order.countDocuments();
 
-        return res.status(200).json(orders)
+        return res.status(200).json({
+            orders,
+            currentPage: pageNumber,
+            totalPages: Math.ceil(totalOrders / pageLimit),
+            totalOrders
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "خطایی در سرور رخ داد"
+        });
+    }
+}
+
+async function changeStatus(req, res) {
+    try {
+        const id = req.params.id;
+        const orderStatus = req.body.status;
+
+        const order = await Order.findById(id);
+        if (!order) {
+            return res.status(404).json({
+                message: "سفارش یافت نشد"
+            });
+        }
+
+        order.status = orderStatus;
+        await order.save();
+
+        return res.status(200).json({ message: "وضعیت سفارش تغییر یافت" })
 
     } catch (error) {
         console.log(error)
@@ -272,5 +303,6 @@ module.exports = {
     paymentCallback,
     checkExpiredOrders,
     userOrders,
-    adminOrders
+    adminOrders,
+    changeStatus
 }

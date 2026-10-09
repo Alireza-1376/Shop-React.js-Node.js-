@@ -1,11 +1,12 @@
 import type { UserItems } from "./auth";
+import type { ProductType } from "./product";
 
 export type AddressType = {
     address: string
 }
 
 export interface OrderItem {
-    product: string;
+    product: ProductType;
     name: string;
     price: number;
     quantity: number;
@@ -25,4 +26,11 @@ export interface Order {
     expiresAt: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export type Orders = {
+    orders: Order[]
+    totalPages: number
+    totalOrders: number
+    currentPage: number
 }

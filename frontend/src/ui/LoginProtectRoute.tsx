@@ -12,7 +12,7 @@ function LoginProtectRoute({
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center">
+      <div className="flex text-emerald-500 h-screen w-screen items-center justify-center">
         <Loading size={50} />
       </div>
     );

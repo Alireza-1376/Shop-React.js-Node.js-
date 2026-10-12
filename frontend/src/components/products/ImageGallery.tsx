@@ -11,7 +11,7 @@ function ImageGallery({ product }: { product: ProductType }) {
     }, [product]);
 
     const imageUrl = selectedImage
-        ? `http://localhost:5000/${selectedImage}`
+        ? `https://online-shop-back.liara.run/${selectedImage}`
         : "";
 
     return (
@@ -19,7 +19,7 @@ function ImageGallery({ product }: { product: ProductType }) {
             <div className="flex flex-col gap-4 sm:flex-row-reverse">
                 {/* Main image */}
                 <div className="flex-1">
-                    <div className="aspect-square overflow-hidden rounded-2xl bg-slate-50">
+                    <div className="aspect-square overflow-hidden rounded-2xl border border-slate-100">
                         {imageUrl ? (
                             <img
                                 src={imageUrl}
@@ -53,7 +53,7 @@ function ImageGallery({ product }: { product: ProductType }) {
                                         }`}
                                 >
                                     <img
-                                        src={`http://localhost:5000/${image}`}
+                                        src={`https://online-shop-back.liara.run/${image}`}
                                         alt={`${product.title} ${index + 1}`}
                                         className="h-full w-full object-contain p-1.5"
                                     />

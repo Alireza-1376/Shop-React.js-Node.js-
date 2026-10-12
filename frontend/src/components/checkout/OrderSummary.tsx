@@ -20,7 +20,7 @@ function OrderSummary({
 }: OrderSummaryProps) {
     return (
         <div className="lg:col-span-1">
-            <div className="sticky top-6 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
+            <div className="sticky top-22 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">

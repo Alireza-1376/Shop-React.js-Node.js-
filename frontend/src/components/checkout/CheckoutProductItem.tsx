@@ -17,7 +17,7 @@ function CheckoutProductItem({
         <div className="flex gap-3">
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                 <img
-                    src={`http://localhost:5000/${item.product.image?.[0]}`}
+                    src={`https://online-shop-back.liara.run/${item.product.image?.[0]}`}
                     alt={item.product.title}
                     className="h-full w-full object-cover"
                 />

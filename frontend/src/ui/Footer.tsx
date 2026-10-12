@@ -8,7 +8,7 @@ function Footer() {
                 <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                     <div className="text-center sm:text-right">
                         <h2 className="text-lg font-black text-emerald-600">
-                            فروشگاه علیرضا
+                            فروشگاه لوازم الکترونیکی
                         </h2>
                         <p className="mt-2 text-sm text-slate-400">
                             خریدی ساده، مطمئن و لذت‌بخش

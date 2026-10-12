@@ -1,4 +1,3 @@
-import { useState } from "react"
 import SendPhoneNumber from "./SendPhoneNumber"
 import VerifyOtp from "./VerifyOtp"
 import { useSendPhoneNumber } from "./useSendPhoneNumber";
@@ -9,7 +8,7 @@ function AuthLayout() {
     const pathname = location.pathname;
     const navigate = useNavigate()
     const { isPending, mutateAsync, data } = useSendPhoneNumber()
-
+    
     const onSubmit = async (values: { mobile: string }) => {
         await mutateAsync(values)
         if (pathname != "/check-otp") {
@@ -19,7 +18,7 @@ function AuthLayout() {
     return (
         <div>
             {pathname == "/login" && <SendPhoneNumber onSubmit={onSubmit} isPending={isPending} />}
-            {pathname == "/check-otp" && <VerifyOtp onSubmit={onSubmit} mobile={data?.data.mobile} />}
+            {pathname == "/check-otp" && <VerifyOtp otpCode={data?.data.otp} onSubmit={onSubmit} mobile={data?.data.mobile} />}
         </div>
     )
 }

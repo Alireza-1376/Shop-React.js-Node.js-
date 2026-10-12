@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAddToCart } from "./useAddToCart";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import toPersianPrice from "../../utils/toPersianPrice";
 
 type ProductCardProps = {
     product: ProductType;
@@ -49,7 +50,7 @@ function ProductCard({ product }: ProductCardProps) {
                 <div className="h-full w-full overflow-hidden rounded-xl bg-slate-100">
                     {image ? (
                         <img
-                            src={`http://localhost:5000/${image}`}
+                            src={`https://online-shop-back.liara.run/${image}`}
                             alt={product.title}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
@@ -88,7 +89,7 @@ function ProductCard({ product }: ProductCardProps) {
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                             <span className="text-base font-black text-emerald-600 sm:text-lg">
-                                {toPersianNumber(Math.round(finalPrice))} تومان
+                                {toPersianPrice(Math.round(finalPrice))} تومان
                             </span>
 
                             {hasDiscount && (

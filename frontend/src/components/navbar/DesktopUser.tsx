@@ -15,7 +15,7 @@ function DesktopUser({ userMenuRef, userMenuOpen, setUserMenuOpen, user, isLoadi
 
     return (
         <div ref={userMenuRef} className="relative hidden lg:block">
-            {isLoading ? <div className="w-full flex justify-center"><Loading size={30} /></div>
+            {isLoading ? <div className="w-full flex justify-center text-emerald-500"><Loading size={30} /></div>
                 :
                 !user ? (
                     <Link to="/login" className="flex cursor-pointer items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:bg-emerald-600 hover:shadow-lg active:scale-95">

@@ -14,9 +14,9 @@ function MobileUser({ setMobileOpen, user, isLoading, logout }: MobileUserPropsT
 
     return (
         <div>
-            {isLoading ? <div className="w-full flex justify-center"><Loading size={30} /></div> :
+            {isLoading ? <div className="w-full flex justify-center text-emerald-500"><Loading size={30} /></div> :
                 !user ? (
-                    <Link to="/login" className="flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-colors hover:bg-emerald-600">
+                    <Link onClick={()=>{setMobileOpen(false)}} to="/login" className="flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-colors hover:bg-emerald-600">
                         <FiLogIn size={18} />
                         ورود / ثبت نام
                     </Link>

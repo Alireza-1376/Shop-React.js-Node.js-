@@ -120,7 +120,7 @@ function Cart() {
                                         <div className="flex items-center gap-4">
 
                                             <img
-                                                src={`http://localhost:5000/${product.image[0]}`}
+                                                src={`https://online-shop-back.liara.run/${product.image[0]}`}
                                                 alt={product.title}
                                                 className="h-24 w-24 rounded-xl object-cover"
                                             />

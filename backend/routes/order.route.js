@@ -15,8 +15,6 @@ const adressValidator = [
         .withMessage("آدرس باید بین ۲ تا ۱۰۰۰ کاراکتر باشد"),
 ];
 
-
-
 orderRoute.post("/checkout", authenticate, adressValidator, orderController.checkout)
 
 orderRoute.get("/payment/callback", orderController.paymentCallback)

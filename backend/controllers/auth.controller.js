@@ -31,7 +31,8 @@ function setAuthCookies(res, tokens) {
     const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict"
+        sameSite: "none",
+        path: "/"
     };
 
     res.cookie("accessToken", tokens.accessToken, {
@@ -50,8 +51,7 @@ function generateOtp() {
 }
 
 async function sendOtp(mobile, otp) {
-    // Replace this with the SMS provider API before deploying to production.
-    console.log(`OTP for ${mobile}: ${otp}`);
+    console.log(otp)
 }
 
 async function register(req, res) {
@@ -92,7 +92,8 @@ async function register(req, res) {
         return res.status(200).json({
             message: `کد تایید به شماره موبایل ${mobile} ارسال شد`,
             mobile: mobile,
-            expiresIn: expiresAt
+            expiresIn: expiresAt,
+            otp: otp
         });
     } catch (error) {
         console.error(error)
@@ -208,7 +209,7 @@ async function refreshToken(req, res) {
         } catch (error) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken", {
-                path: "/api"
+                path: "/"
             });
             return res.status(401).json({
                 message: "نشست شما منقضی شده است. لطفاً دوباره وارد شوید."
@@ -220,7 +221,7 @@ async function refreshToken(req, res) {
         if (!user) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken", {
-                path: "/api"
+                path: "/"
             });
             return res.status(401).json({
                 message: "کاربر پیدا نشد. لطفاً دوباره وارد شوید."
@@ -246,11 +247,14 @@ async function refreshToken(req, res) {
 
 async function logout(req, res) {
     try {
-        const refreshToken = req.cookies?.refreshToken;
-        res.clearCookie("accessToken");
-        res.clearCookie("refreshToken", {
-            path: "/"
-        });
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+            path: "/",
+        };
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
         return res.status(200).json({
             message: "با موفقیت از حساب کاربری خارج شدید"
         });

@@ -143,7 +143,9 @@ async function checkout(req, res) {
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Checkout error:", error);
+        console.error("Error message:", error.message);
+        console.error("ZarinPal response:", error.response?.data);
         return res.status(500).json({
             message: "خطایی در سرور رخ داد"
         });

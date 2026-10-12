@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { useMergeCart } from "../../hooks/useMergeCart";
 import { CartContext } from "../../context/CartContext";
 
-function VerifyOtp({ mobile, onSubmit }: {
+function VerifyOtp({ otpCode, mobile, onSubmit }: {
+    otpCode: string,
     mobile: string,
     onSubmit: (values: { mobile: string }) => Promise<void>;
 }) {
     const { merge } = useMergeCart();
     const { cart, setCart } = useContext(CartContext);
-    console.log(cart)
     const [otp, setOtp] = useState("");
     const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);
@@ -66,7 +66,7 @@ function VerifyOtp({ mobile, onSubmit }: {
                     </div>
 
                     <h1 className="text-2xl font-black text-slate-800">
-                        تایید شماره موبایل
+                        تایید شماره موبایل : {otpCode}
                     </h1>
 
                     <p className="mt-2 text-sm leading-6 text-slate-500">

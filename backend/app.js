@@ -57,8 +57,10 @@ app.use("/api/cart", cartRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/order", orderRoute)
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log("Listening on port 5000");
-    })
+const PORT = process.env.PORT || 5000;
+
+mongoose.connect(process.env.DATABASE_URL).then(() => {
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log(`Listening on port ${PORT}`);
+    });
 }).catch((err) => { console.log(err) });

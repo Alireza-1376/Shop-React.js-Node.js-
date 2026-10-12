@@ -39,7 +39,7 @@ function Navbar() {
                     </div>
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex">
-                        <NavItems />
+                        <NavItems setMobileOpen={setMobileOpen} />
                     </div>
                     <div className="flex items-center gap-2">
                         <DesktopCart user={user} />
@@ -62,7 +62,7 @@ function Navbar() {
                     </button>
                 </div>
                 <div className="flex-1 overflow-y-auto p-4">
-                    <NavItems />
+                    <NavItems setMobileOpen={setMobileOpen} />
                     <div className="my-4 border-t border-slate-100" />
                     <div className="my-4 border-t border-slate-100" />
                     <MobileUser logout={logout} isLoading={isLoading} user={user} setMobileOpen={setMobileOpen} />

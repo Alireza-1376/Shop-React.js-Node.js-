@@ -24,7 +24,7 @@ function Image() {
                                 className="group relative aspect-square overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-300"
                             >
                                 <img
-                                    src={`http://localhost:5000/${img}`}
+                                    src={`https://online-shop-back.liara.run/${img}`}
                                     alt={`Product Image ${index + 1}`}
                                     className="w-full h-full object-cover"
                                 />

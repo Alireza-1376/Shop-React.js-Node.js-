@@ -8,6 +8,7 @@ import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { useSendAddress } from "./useSendAddress";
 import type { AddressType } from "../../types/order";
+import Map from "./Map";
 
 function Checkout() {
     const { user } = useUser();
@@ -56,26 +57,31 @@ function Checkout() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
-            <div dir="rtl" className="min-h-screen bg-gray-50 px-4 py-8 pt-30 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-6xl">
-                    <CheckoutHeader />
-                    <Form>
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                            <div className="space-y-6 lg:col-span-2">
-                                <ReceiverInfo />
-                                <AddressForm name="address" />
-                            </div>
+            {formik =>
+            (
+                <div dir="rtl" className="min-h-screen bg-gray-50 px-4 py-8 pt-30 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-6xl">
+                        <CheckoutHeader />
+                        <Form>
+                            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                                <div className="space-y-6 lg:col-span-2">
+                                    <ReceiverInfo />
+                                    <AddressForm name="address" />
+                                    <Map formik={formik}/>
+                                </div>
 
-                            <OrderSummary
-                                isPending={isPending}
-                                cart={cart}
-                                totalPrice={totalPrice}
-                                totalItems={totalItems}
-                            />
-                        </div>
-                    </Form>
+                                <OrderSummary
+                                    isPending={isPending}
+                                    cart={cart}
+                                    totalPrice={totalPrice}
+                                    totalItems={totalItems}
+                                />
+                            </div>
+                        </Form>
+                    </div>
                 </div>
-            </div>
+            )
+            }
         </Formik>
     );
 }

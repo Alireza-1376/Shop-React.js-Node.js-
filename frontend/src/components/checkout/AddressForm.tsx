@@ -24,10 +24,7 @@ function AddressForm({ name }: { name: string }) {
                 </div>
             </div>
 
-            <label
-                htmlFor="address"
-                className="mb-2 block text-sm text-gray-600"
-            >
+            <label htmlFor="address" className="mb-2 block text-sm text-gray-600">
                 آدرس کامل
             </label>
 

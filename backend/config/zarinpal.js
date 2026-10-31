@@ -6,3 +6,4 @@ const zarinpal = new ZarinPal({
 });
 
 module.exports = zarinpal;
+

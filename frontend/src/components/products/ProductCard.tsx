@@ -50,7 +50,7 @@ function ProductCard({ product }: ProductCardProps) {
                 <div className="h-full w-full overflow-hidden rounded-xl bg-slate-100">
                     {image ? (
                         <img
-                            src={`https://online-shop-back.liara.run/${image}`}
+                            src={`http://localhost:5000/${image}`}
                             alt={product.title}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />

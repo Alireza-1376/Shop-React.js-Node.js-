@@ -11,7 +11,7 @@ function ImageGallery({ product }: { product: ProductType }) {
     }, [product]);
 
     const imageUrl = selectedImage
-        ? `https://online-shop-back.liara.run/${selectedImage}`
+        ? `http://localhost:5000/${selectedImage}`
         : "";
 
     return (
@@ -53,7 +53,7 @@ function ImageGallery({ product }: { product: ProductType }) {
                                         }`}
                                 >
                                     <img
-                                        src={`https://online-shop-back.liara.run/${image}`}
+                                        src={`http://localhost:5000/${image}`}
                                         alt={`${product.title} ${index + 1}`}
                                         className="h-full w-full object-contain p-1.5"
                                     />

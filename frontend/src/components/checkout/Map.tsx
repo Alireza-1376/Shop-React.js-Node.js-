@@ -1,0 +1,81 @@
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import type { LatLngTuple } from 'leaflet';
+import { useState } from 'react';
+import type { FormikProps } from 'formik';
+
+type FormValues = { address: string };
+
+async function reverseGeocode(lat: number, lng: number, signal?: AbortSignal): Promise<string | null> {
+    const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=fa&zoom=18&addressdetails=1`,
+        { signal }
+    );
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const a = data.address;
+    if (!a) return null;
+
+    const parts = [
+        a.city ?? a.town ?? a.village ?? a.county,   // شهر
+        a.city_district,                             // منطقه
+        a.suburb,                                    // محله بزرگ
+        a.neighbourhood ?? a.quarter,                // محله
+        a.road,                                      // خیابان / کوچه
+        a.house_number ? `پلاک ${a.house_number}` : undefined, // پلاک
+    ];
+
+    const clean = parts.filter((p, i) => p && parts.indexOf(p) === i);
+
+    return clean.length ? clean.join('، ') : null;
+}
+
+function ClickMarker({ formik }: { formik: FormikProps<FormValues> }) {
+    const [position, setPosition] = useState<LatLngTuple | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    useMapEvents({
+        async click(e) {
+            const { lat, lng } = e.latlng;
+            setPosition([lat, lng]);
+            setLoading(true);
+
+            try {
+                const address = await reverseGeocode(lat, lng);
+                if (address) {
+                    formik.setFieldValue('address', address);
+                }
+            } catch (err) {
+                console.error('Reverse geocoding failed', err);
+            } finally {
+                setLoading(false);
+            }
+        },
+    });
+
+    if (!position) return null;
+
+    return (
+        <Marker position={position}>
+            <Popup>
+                {loading ? 'در حال دریافت آدرس...' : formik.values.address || 'آدرس پیدا نشد'}
+            </Popup>
+        </Marker>
+    );
+}
+
+function Map({ formik }: { formik: FormikProps<FormValues> }) {
+    const center: LatLngTuple = [35.6892, 51.3890];
+
+    return (
+        <MapContainer center={center} zoom={10} scrollWheelZoom={false} className="w-full h-96">
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <ClickMarker formik={formik} />
+        </MapContainer>
+    );
+}
+
+export default Map;

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 function ProductFilters({ categories }: { categories: CategoryType[] }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const category = searchParams.get("category") ?? "";
-    const [price, setPrice] = useState<number[]>([1000, 30000]);
+    const [price, setPrice] = useState<number[]>([100000, 3000000]);
     const [isPriceChanged, setIsPriceChanged] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
@@ -162,7 +162,7 @@ function ProductFilters({ categories }: { categories: CategoryType[] }) {
                         </span>
 
                         <span className="text-sm font-bold text-slate-700">
-                            {toPersianPrice(price[0])} تومان
+                            {toPersianPrice(price[0])} ریال
                         </span>
                     </div>
 
@@ -174,7 +174,7 @@ function ProductFilters({ categories }: { categories: CategoryType[] }) {
                         </span>
 
                         <span className="text-sm font-bold text-slate-700">
-                            {toPersianPrice(price[1])} تومان
+                            {toPersianPrice(price[1])} ریال
                         </span>
                     </div>
                 </div>
@@ -185,8 +185,8 @@ function ProductFilters({ categories }: { categories: CategoryType[] }) {
                         value={price}
                         onChange={handleChangePrice}
                         valueLabelDisplay="auto"
-                        min={1000}
-                        max={30000}
+                        min={100000}
+                        max={300000}
                     />
                 </Box>
             </div>

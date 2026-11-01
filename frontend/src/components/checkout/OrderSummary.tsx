@@ -66,7 +66,7 @@ function OrderSummary({
                         </span>
 
                         <span className="font-bold">
-                            تومان
+                            ریال
                         </span>
                     </div>
                 </div>

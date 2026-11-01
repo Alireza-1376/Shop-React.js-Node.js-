@@ -81,7 +81,7 @@ function ProductCard({ product }: ProductCardProps) {
                     <div className="mb-1 flex h-5 items-center gap-2 text-xs text-slate-400">
                         {hasDiscount && (
                             <span className="line-through">
-                                {toPersianNumber(product.price)} تومان
+                                {toPersianPrice(product.price)} ریال
                             </span>
                         )}
                     </div>
@@ -89,7 +89,7 @@ function ProductCard({ product }: ProductCardProps) {
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                             <span className="text-base font-black text-emerald-600 sm:text-lg">
-                                {toPersianPrice(Math.round(finalPrice))} تومان
+                                {toPersianPrice(Math.round(finalPrice))} ریال
                             </span>
 
                             {hasDiscount && (

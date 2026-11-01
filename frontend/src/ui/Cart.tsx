@@ -131,7 +131,7 @@ function Cart() {
                                                 </h2>
 
                                                 <p className="mt-2 text-sm text-slate-400">
-                                                    {toPersianPrice(finalPrice)}
+                                                    {toPersianPrice(finalPrice)} ریال
                                                 </p>
 
                                                 <div className="mt-4 flex items-center gap-3">
@@ -169,7 +169,7 @@ function Cart() {
                                                 <span className="text-base font-black text-slate-800">
                                                     {toPersianPrice(
                                                         finalPrice * item.quantity
-                                                    )}
+                                                    )} ریال
                                                 </span>
                                             </div>
                                         </div>
@@ -204,7 +204,7 @@ function Cart() {
                                 </span>
 
                                 <span className="text-lg font-black text-emerald-600">
-                                    {toPersianPrice(totalPrice)}
+                                    {toPersianPrice(totalPrice)} ریال
                                 </span>
                             </div>
 

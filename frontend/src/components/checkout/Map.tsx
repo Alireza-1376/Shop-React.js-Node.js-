@@ -16,18 +16,21 @@ async function reverseGeocode(lat: number, lng: number, signal?: AbortSignal): P
     const a = data.address;
     if (!a) return null;
 
-    const parts = [
-        a.city ?? a.town ?? a.village ?? a.county,   // شهر
-        a.city_district,                             // منطقه
-        a.suburb,                                    // محله بزرگ
-        a.neighbourhood ?? a.quarter,                // محله
-        a.road,                                      // خیابان / کوچه
-        a.house_number ? `پلاک ${a.house_number}` : undefined, // پلاک
-    ];
+    const city = a.city ?? a.town ?? a.village ?? a.county
+    const city_district = a.city_district
+    const suburb = a.suburb
+    const neighbourhood = a.neighbourhood ?? a.quarter
+    const road = a.road
 
-    const clean = parts.filter((p, i) => p && parts.indexOf(p) === i);
+    let address = '';
 
-    return clean.length ? clean.join('، ') : null;
+    if (city) address += city;
+    if (city_district) address += `، ${city_district}`;
+    if (suburb) address += `، ${suburb}`;
+    if (neighbourhood) address += `، ${neighbourhood}`;
+    if (road) address += `، ${road}`;
+
+    return address;
 }
 
 function ClickMarker({ formik }: { formik: FormikProps<FormValues> }) {

@@ -37,7 +37,7 @@ function CheckoutProductItem({
                     <span className="text-sm font-medium text-gray-700">
                         {toPersianPrice(
                             finalPrice * item.quantity
-                        )}
+                        )} ریال
                     </span>
                 </div>
             </div>
